@@ -19,26 +19,26 @@ const KeyPad: React.FC<KeyPadType> = ({setIsSelected}) => {
         <div className="h-4 w-4 bg-gray rounded-full"></div>
         <div className="h-4 w-4 bg-gray rounded-full"></div>
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 select-none">
         <div className="text-white text-2xl flex gap-4">
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">1</button>
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">2</button>
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">3</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">1</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">2</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">3</button>
         </div>
         <div className="text-white text-2xl flex gap-4">
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">4</button>
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">5</button>
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">6</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">4</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">5</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">6</button>
         </div>
         <div className="text-white text-2xl flex gap-4">
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">7</button>
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">8</button>
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">9</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">7</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">8</button>
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">9</button>
         </div>
         <div className="text-white text-2xl flex gap-4">
           <div className="h-20 w-20"></div>
-          <button className="bg-gray hover:bg-purple hover:text-black duration-200 h-20 w-20 rounded-md">0</button>
-          <button className="hover:text-purple duration-200 h-20 w-20 flex justify-center items-center">
+          <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">0</button>
+          <button className="active:text-purple duration-200 h-20 w-20 flex justify-center items-center">
             <FiDelete />
           </button>
         </div>
