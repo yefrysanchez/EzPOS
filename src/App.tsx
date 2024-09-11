@@ -5,7 +5,7 @@ function App() {
 
 
   return (
-    <main className='bg-black h-screen'>
+    <main className='bg-black h-screen text-lightGray'>
      <ClockIn />
     </main>
   )

@@ -12,13 +12,13 @@ export default {
       colors: {
         white: "#FFFFFF",
         black: "#111315",
-        darkGrade: "#292C2D",
-        gray: "#676767",
+        darkGray: "#292C2D",
+        gray: "#484848",
         lightGray: "#969696",
         green: "#CFDDDB",
-        pink: "E4CDED",
-        blue: "C2DBE9",
-        purple: "C9CAEF"
+        pink: "#E4CDED",
+        blue: "#C2DBE9",
+        purple: "#C9CAEF"
       }
     },
   },
