@@ -14,11 +14,14 @@ const KeyPad: React.FC<KeyPadType> = ({setIsSelected}) => {
 
       <p>Enter your PIN</p>
       <div className="flex gap-8">
+          {/* create it by applying .split("") method to pin variable that will create an array */}
         <div className="h-4 w-4 bg-white rounded-full"></div>
         <div className="h-4 w-4 bg-white rounded-full"></div>
         <div className="h-4 w-4 bg-gray rounded-full"></div>
         <div className="h-4 w-4 bg-gray rounded-full"></div>
       </div>
+
+      {/* Refactor by using an Array */}
       <div className="flex flex-col gap-4 select-none">
         <div className="text-white text-2xl flex gap-4">
           <button className="bg-gray active:bg-purple active:text-black duration-200 h-20 w-20 rounded-md">1</button>
