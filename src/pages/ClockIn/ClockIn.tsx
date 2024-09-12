@@ -12,7 +12,7 @@ const ClockIn = () => {
         <h1 className="font-bold text-white text-4xl text-center mb-8">
           Welcome Back!
         </h1>
-        <div className="overflow-y-scroll h-full hide-scrollbar-webkit .hide-scrollbar-firefox">
+        <div className="overflow-y-scroll h-full hide-scrollbar-webkit hide-scrollbar-firefox">
           <div onClick={() => setIsSelected(!isSelected)}>
             <ClockInComponent />
           </div>
