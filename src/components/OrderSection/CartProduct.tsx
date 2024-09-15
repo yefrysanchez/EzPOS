@@ -23,7 +23,7 @@ const CartProduct: React.FC<CardProductType> = ({
         <span className="text-lightGray text-xl lg:text-sm">x{quantity}</span>
       </div>
       <div className="flex items-center">
-        <span className="font-bold text-xl lg:text-sm">${price.toFixed(2)}</span>
+        <span className="font-bold text-xl lg:text-sm">${(price * quantity).toFixed(2)}</span>
       </div>
     </div>
   );

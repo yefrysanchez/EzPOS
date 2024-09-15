@@ -2,11 +2,14 @@ import { useState } from "react";
 import { FaArrowRight, FaCartShopping } from "react-icons/fa6";
 import CartProduct from "./CartProduct";
 import { PiCoffeeThin } from "react-icons/pi";
-import { products } from "../../dummyData/products";
 import PaymentSect from "./PaymentSect";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+
 
 const OrderSection = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { cart } = useSelector((state: RootState) => state.cart);
 
   return (
     <section className="h-fit text-2xl text-white / lg:flex lg:h-screen lg:w-full lg:max-w-[350px]">
@@ -17,7 +20,7 @@ const OrderSection = () => {
         <FaCartShopping />
       </button>
 
-      {products.length !== 0 ? (
+      {cart.length !== 0 ? (
         <div
           className={`${
             isOpen ? "absolute inset-0" : "hidden lg:flex"
@@ -37,12 +40,13 @@ const OrderSection = () => {
           {/* cart products */}
 
           <div className="my-1 overflow-y-scroll grid gap-3 hide-scrollbar-webkit hide-scrollbar-firefox / lg:flex-initial lg:gap-2">
-            {products.map((p, i) => (
+            {cart.map((p, i: number) => (
               <CartProduct
+                key={i}
                 indexList={i + 1}
                 product={p.name}
                 price={p.price}
-                quantity={1}
+                quantity={p.qty }
               />
             ))}
           </div>

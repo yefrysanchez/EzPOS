@@ -6,7 +6,7 @@ const ProductSection = () => {
     <section className='hide-scrollbar-webkit hide-scrollbar-firefox mt-4 h-full flex  gap-2 flex-wrap place-content-start overflow-y-scroll max-w-4xl'>
       {
         products.map(p => (
-          <AddProduct price={Number(p.price)} name={p.name} category={p.category} />
+          <AddProduct key={p.id} price={Number(p.price)} id={p.id} name={p.name} category={p.category} />
         ))
       }
   

@@ -12,7 +12,7 @@ const CategoryBtn: React.FC<CategoryBtnType> = ({ BgColor, category, icon: Icon 
   
   return (
     <button
-      className={`${BgColor} text-black p-4 h-[130px] flex flex-col justify-between w-full max-w-[150px] rounded-xl`}
+      className={`${BgColor} active:scale-95 duration-200 text-black p-4 h-[130px] flex flex-col justify-between w-full max-w-[150px] rounded-xl`}
     >
       <div className="text-3xl">
         <Icon /> 
