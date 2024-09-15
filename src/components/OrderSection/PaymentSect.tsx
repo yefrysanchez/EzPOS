@@ -1,6 +1,6 @@
 import PaymentMethod from "./PaymentMethod";
 import PayBtn from "./PayBtn";
-import { calculateTotal } from "../../services/calculateSubtotal.service";
+import { calculateTotal } from "../../helpers/calculateSubtotal";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 

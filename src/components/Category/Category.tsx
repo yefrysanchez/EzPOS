@@ -3,8 +3,11 @@ import { GiSlicedBread } from "react-icons/gi";
 import { PiCoffeeFill } from "react-icons/pi";
 import { RiDrinks2Fill } from "react-icons/ri";
 
+type CategoryType = {
+  setActiveTab: (tab: string) => void;
+};
 
-const Category = () => {
+const Category: React.FC<CategoryType> = ({ setActiveTab }) => {
   return (
     <section className="">
       <div className="mb-4">
@@ -14,10 +17,28 @@ const Category = () => {
           type="search"
         />
       </div>
-      <div className="flex gap-2">
-        <CategoryBtn category="Coffee" icon={PiCoffeeFill} BgColor="bg-green" />
-        <CategoryBtn category="Cold Drinks" icon={RiDrinks2Fill} BgColor="bg-pink" />
-        <CategoryBtn category="Snacks" icon={GiSlicedBread } BgColor="bg-blue" />
+      <div className="flex gap-2 overflow-x-scroll lg:overflow-x-visible">
+        <div onClick={() => setActiveTab("Coffee")}>
+          <CategoryBtn
+            category="Coffee"
+            icon={PiCoffeeFill}
+            BgColor="bg-green"
+          />
+        </div>
+        <div onClick={() => setActiveTab("Cold Drinks")}>
+          <CategoryBtn
+            category="Cold Drinks"
+            icon={RiDrinks2Fill}
+            BgColor="bg-pink"
+          />
+        </div>
+        <div onClick={() => setActiveTab("Snacks")}>
+          <CategoryBtn
+            category="Snacks"
+            icon={GiSlicedBread}
+            BgColor="bg-blue"
+          />
+        </div>
       </div>
     </section>
   );

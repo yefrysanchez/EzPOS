@@ -1,54 +1,44 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { loadCartFromLocalStorage, saveCartToLocalStorage } from "../helpers/localStorageHelpers";
+import { cartItemType, cartType } from "../types/types";
 
-type cartItemType = {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
-  qty: number;
-};
 
-type cartType = {
-  cart: cartItemType[];
-  taxPorcentage: number;
-};
 
-const initialState: cartType = {
-  cart: [],
-  taxPorcentage: 12,
-};
+
+// Load initial state from local storage
+const initialState: cartType = loadCartFromLocalStorage();
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
+    addToCart: (state, action: PayloadAction<cartItemType>) => {
       const item = action.payload;
-      const itemExist = state.cart.find((i) => i.id === item.id); //check is item exist
+      const itemExist = state.cart.find((i) => i.id === item.id);
       if (itemExist) {
-        itemExist.qty = itemExist.qty + 1; //if already in cart will increase qty
-        return;
+        itemExist.qty = itemExist.qty + 1;
       } else {
-        state.cart.push(item); // if not will add it cart
+        state.cart.push(item);
       }
+      saveCartToLocalStorage(state); // Save state to local storage
     },
-    addQty: (state, action) => {
+    addQty: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const item = state.cart.find((item) => item.id === id);
       if (item) {
-        item.qty = item?.qty + 1;
+        item.qty = item.qty + 1;
+        saveCartToLocalStorage(state); // Save state to local storage
       }
     },
-    subQty: (state, action) => {
+    subQty: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const item = state.cart.find((item) => item.id === id);
       if (item?.qty === 1) {
-        const removeItem = state.cart.filter((item) => item.id !== id);
-        state.cart = removeItem;
+        state.cart = state.cart.filter((item) => item.id !== id);
+      } else if (item) {
+        item.qty = item.qty - 1;
       }
-      if (item) {
-        item.qty = item?.qty - 1;
-      }
+      saveCartToLocalStorage(state); // Save state to local storage
     },
   },
 });
