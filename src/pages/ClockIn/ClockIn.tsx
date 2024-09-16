@@ -5,7 +5,7 @@ import KeyPad from "../../components/KeyPad/KeyPad";
 const ClockIn = () => {
   const [isSelected, setIsSelected] = useState(false);
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen w-full">
       <div
         className={`${isSelected ? "w-1/2" : "w-full"} p-12 overflow-hidden `}
       >

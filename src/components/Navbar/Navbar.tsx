@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const links = ["Menu", "Dashboard", "Setting"];
@@ -27,24 +28,32 @@ const Navbar = () => {
         </div>
         <ul className="text-2xl grid gap-4 px-4 / lg:w-full lg:text-xl">
           {links.map((link) => (
-            <a
-            onClick={() => setIsOpen(false)}
-              className="hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg w-4/5 / lg:w-full"
-              key={link}
-              href="#"
+            <NavLink
+              to={`/${link}`}
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `${isActive ? "bg-darkGray text-white" : ""} hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg w-4/5 lg:w-full`
+              }key={link}
             >
               <li>{link}</li>
-            </a>
+            </NavLink>
           ))}
           <a
             className=" hover:text-red-500 w-fit duration-200 p-2 rounded-lg "
             href="#"
           >
-            <li>Clock Out</li>
+            <li>
+              <Link to={"/"}>Clock Out</Link>
+            </li>
           </a>
         </ul>
       </div>
-      {isOpen && <div onClick={() => setIsOpen(false)} className="bg-black/20 z-50 fixed inset-0"></div>}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="bg-black/20 z-50 fixed inset-0"
+        ></div>
+      )}
     </nav>
   );
 };
