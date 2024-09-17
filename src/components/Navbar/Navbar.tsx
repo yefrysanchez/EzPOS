@@ -28,30 +28,36 @@ const Navbar = () => {
         </div>
         <ul className="text-2xl grid gap-4 px-4 / lg:w-full lg:text-xl">
           {links.map((link) => (
-            <NavLink
-              to={`/${link}`}
-              onClick={() => setIsOpen(false)}
-              className={({ isActive }) =>
-                `${isActive ? "bg-darkGray text-white" : ""} hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg w-4/5 lg:w-full`
-              }key={link}
-            >
-              <li>{link}</li>
-            </NavLink>
-          ))}
-          <a
-            className=" hover:text-red-500 w-fit duration-200 p-2 rounded-lg "
-            href="#"
-          >
-            <li>
-              <Link to={"/"}>Clock Out</Link>
+            <li className="w-full" key={link}>
+              <NavLink
+                to={`/${link}`}
+                onClick={() => setIsOpen(false)}
+                className={({ isActive }) =>
+                  `${
+                    isActive ? "bg-darkGray text-white w-full" : ""
+                  } hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg `
+                }
+                key={link}
+              >
+                {link}
+              </NavLink>
             </li>
-          </a>
+          ))}
+
+          <li>
+            <Link
+              className=" hover:text-red-500 w-fit duration-200 p-2 rounded-lg"
+              to={"/"}
+            >
+              Clock Out
+            </Link>
+          </li>
         </ul>
       </div>
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
-          className="bg-black/20 z-50 fixed inset-0"
+          className="bg-black/20 z-40 fixed inset-0"
         ></div>
       )}
     </nav>

@@ -5,7 +5,7 @@ import { RiDrinks2Fill } from "react-icons/ri";
 
 type CategoryType = {
   setActiveTab: (tab: string) => void;
-  activeTab: string ;
+  activeTab: string;
 };
 
 const Category: React.FC<CategoryType> = ({ setActiveTab, activeTab }) => {
@@ -18,10 +18,10 @@ const Category: React.FC<CategoryType> = ({ setActiveTab, activeTab }) => {
           type="search"
         />
       </div>
-      <div className="flex gap-2 overflow-x-scroll lg:overflow-x-visible">
+      <div className="flex gap-2 overflow-x-scroll lg:overflow-x-visible hide-scrollbar-webkit  hide-scrollbar-firefox">
         <div onClick={() => setActiveTab("Coffee")}>
           <CategoryBtn
-          activeTab={activeTab}
+            activeTab={activeTab}
             category="Coffee"
             icon={PiCoffeeFill}
             BgColor="bg-green"
@@ -29,7 +29,7 @@ const Category: React.FC<CategoryType> = ({ setActiveTab, activeTab }) => {
         </div>
         <div onClick={() => setActiveTab("Cold Drinks")}>
           <CategoryBtn
-          activeTab={activeTab}
+            activeTab={activeTab}
             category="Cold Drinks"
             icon={RiDrinks2Fill}
             BgColor="bg-pink"
@@ -37,7 +37,7 @@ const Category: React.FC<CategoryType> = ({ setActiveTab, activeTab }) => {
         </div>
         <div onClick={() => setActiveTab("Snacks")}>
           <CategoryBtn
-          activeTab={activeTab}
+            activeTab={activeTab}
             category="Snacks"
             icon={GiSlicedBread}
             BgColor="bg-blue"
