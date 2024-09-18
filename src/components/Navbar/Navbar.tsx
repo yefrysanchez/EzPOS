@@ -4,9 +4,14 @@ import { IoClose } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const links = ["Menu", "Dashboard", "Setting"];
+  const links = ["menu", "dashboard", "settings"];
 
   const [isOpen, setIsOpen] = useState(false);
+
+  function capitalize(string:string): string {
+    if (string.length === 0) return string; // Handle empty string
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
   return (
     <nav className={`relative  h-16 /  lg:h-screen w-full lg:max-w-[230px]`}>
@@ -28,36 +33,29 @@ const Navbar = () => {
         </div>
         <ul className="text-2xl grid gap-4 px-4 / lg:w-full lg:text-xl">
           {links.map((link) => (
-            <li className="w-full" key={link}>
-              <NavLink
-                to={`/${link}`}
-                onClick={() => setIsOpen(false)}
-                className={({ isActive }) =>
-                  `${
-                    isActive ? "bg-darkGray text-white w-full" : ""
-                  } hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg `
-                }
-                key={link}
-              >
-                {link}
-              </NavLink>
-            </li>
+            <NavLink
+              to={`/${link}`}
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `${
+                  isActive ? "bg-darkGray text-white" : ""
+                } hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg w-4/5 lg:w-full`
+              }
+              key={link}
+            >
+              <li>{capitalize(link)}</li>
+            </NavLink>
           ))}
 
-          <li>
-            <Link
-              className=" hover:text-red-500 w-fit duration-200 p-2 rounded-lg"
-              to={"/"}
-            >
-              Clock Out
-            </Link>
+          <li className=" hover:text-red-500 w-fit duration-200 p-2 rounded-lg ">
+            <Link to={"/"}>Clock Out</Link>
           </li>
         </ul>
       </div>
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
-          className="bg-black/20 z-40 fixed inset-0"
+          className="bg-black/20 z-50 fixed inset-0"
         ></div>
       )}
     </nav>
