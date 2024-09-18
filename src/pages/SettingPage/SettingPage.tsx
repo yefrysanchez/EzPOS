@@ -5,7 +5,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { PiSealPercentFill } from "react-icons/pi";
 import AddProductBtn from "../../components/SettingsComponents/AddProductBtn";
 import ChangeTaxForm from "../../components/SettingsComponents/ChangeTaxBtn";
-import EmployeeForm from "../../components/SettingsComponents/EmployeeBtn";
+import EmployeeSection from "../../components/SettingsComponents/EmployeeSection";
 
 const SettingPage = () => {
   const [activeTab, setActiveTab] = useState<string>("");
@@ -17,7 +17,7 @@ const SettingPage = () => {
       case "Tax":
         return <ChangeTaxForm />;
       case "Employee":
-        return <EmployeeForm />;
+        return <EmployeeSection />;
       default:
         return "";
     }

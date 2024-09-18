@@ -7,7 +7,7 @@ export const DashboardPage = () => {
       <div className="tracking-tighter text-3xl">
         <h2>Dashboard</h2>
       </div>
-      <div className="h-1/2 lg:flex-1 mt-4 grid grid-cols-2 gap-3 text-center lg:grid-cols-4">
+      <div className="h-1/2 lg:max-h-[300px] xl:h-full lg:flex-1 mt-4 grid grid-cols-2 gap-3 text-center lg:grid-cols-4">
         {orders.map((order) => (
           <div
             key={order.title}
@@ -16,7 +16,9 @@ export const DashboardPage = () => {
             <div className="flex flex-col p-4 gap-2">
               <span>{order.title}</span>
               <span className="text-2xl font-bold xl:text-[1.5vw]">
-                {order.title === "Revenue" || order.title === "Tip amount" ? `$${order.value} ` : order.value}
+                {order.title === "Revenue" || order.title === "Tip amount"
+                  ? `$${order.value} `
+                  : order.value}
               </span>
             </div>
           </div>
@@ -24,12 +26,12 @@ export const DashboardPage = () => {
       </div>
 
       <div className="lg:grid grid-cols-6 gap-4">
-      <div className="col-span-2">
-      <MostSold />
-      </div>
-      <div className="border border-gray h-full mt-4 rounded-xl p-4 col-span-4">
-        <OrdersChart />
-      </div>
+        <div className="col-span-2">
+          <MostSold />
+        </div>
+        <div className="border border-gray h-full mt-4 rounded-xl p-4 col-span-4">
+          <OrdersChart />
+        </div>
       </div>
     </section>
   );

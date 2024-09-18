@@ -55,7 +55,7 @@ const Navbar = () => {
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
-          className="bg-black/20 z-50 fixed inset-0"
+          className="bg-black/20 z-40 fixed inset-0"
         ></div>
       )}
     </nav>
