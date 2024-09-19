@@ -35,8 +35,12 @@ const cartSlice = createSlice({
         item.qty = item.qty - 1;
       }
     },
+    changeTax: (state, action: PayloadAction<number>) => {
+      const tax = action.payload
+      state.taxPorcentage = tax
+    }
   },
 });
 
-export const { addToCart, addQty, subQty } = cartSlice.actions;
+export const { addToCart, addQty, subQty, changeTax } = cartSlice.actions;
 export default cartSlice.reducer;
