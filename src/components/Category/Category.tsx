@@ -9,14 +9,11 @@ type CategoryType = {
 };
 
 const Category: React.FC<CategoryType> = ({ setActiveTab, activeTab }) => {
+
   return (
     <section className="">
-      <div className="mb-4">
-        <input
-          className="bg-darkGray w-full lg:max-w-[33%] placeholder:text-sm p-2 rounded-lg"
-          placeholder="Search"
-          type="search"
-        />
+      <div className="mb-4 tracking-tighter">
+        <h2 className="text-5xl font-bold text-white">Menu</h2>
       </div>
       <div className="flex gap-2 overflow-x-scroll lg:overflow-x-visible hide-scrollbar-webkit  hide-scrollbar-firefox">
         <div onClick={() => setActiveTab("Coffee")}>

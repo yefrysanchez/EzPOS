@@ -3,9 +3,9 @@ import OrdersChart from "../../components/Dashboards/OrdersChart";
 
 export const DashboardPage = () => {
   return (
-    <section className="h-screen w-full bg-black text-white p-4 overflow-y-scroll lg:overflow-y-auto lg:flex flex-col">
-      <div className="tracking-tighter text-3xl">
-        <h2>Dashboard</h2>
+    <section className="h-screen w-full bg-black text-white pt-4 overflow-y-scroll lg:overflow-y-auto lg:flex flex-col">
+      <div className="">
+        <h2 className="text-5xl font-bold text-white tracking-tighter">Dashboard</h2>
       </div>
       <div className="h-1/2 lg:max-h-[300px] xl:h-full lg:flex-1 mt-4 grid grid-cols-2 gap-3 text-center lg:grid-cols-4">
         {orders.map((order) => (

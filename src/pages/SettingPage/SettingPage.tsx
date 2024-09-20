@@ -24,7 +24,10 @@ const SettingPage = () => {
   };
 
   return (
-    <section className="h-screen w-full bg-black p-4 flex flex-col">
+    <section className="h-screen w-full bg-black pt-4 flex flex-col">
+      <div className="mb-4">
+        <h2 className="text-5xl font-bold text-white tracking-tighter">Settings</h2>
+      </div>
       <div className="flex-shrink-0  flex gap-2 overflow-x-scroll hide-scrollbar-webkit hide-scrollbar-firefox mb-4">
         <SettingsBtn
           setActiveTab={setActiveTab}

@@ -25,6 +25,7 @@ const ChangeTaxForm = () => {
       </div>
       <form onSubmit={handleTax} className="w-full max-w-[150px] h-[130px] flex flex-col gap-2">
         <input
+        step="any"
           ref={taxRef}
           required
           placeholder="Tax %"
