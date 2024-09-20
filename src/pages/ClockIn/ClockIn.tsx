@@ -1,9 +1,11 @@
 import { useState } from "react";
 import ClockInComponent from "../../components/ClockInComponent/ClockInComponent";
 import KeyPad from "../../components/KeyPad/KeyPad";
+import { employees } from "../../dummyData/employee";
 
 const ClockIn = () => {
   const [isSelected, setIsSelected] = useState(false);
+
   return (
     <div className="flex h-screen w-full">
       <div
@@ -13,9 +15,11 @@ const ClockIn = () => {
           Welcome Back!
         </h1>
         <div className="overflow-y-scroll h-full hide-scrollbar-webkit hide-scrollbar-firefox">
-          <div onClick={() => setIsSelected(!isSelected)}>
-            <ClockInComponent />
-          </div>
+          {employees.map((e) => (
+            <div key={e.name} onClick={() => setIsSelected(!isSelected)}>
+              <ClockInComponent name={e.name} lastName={e.lastName} />
+            </div>
+          ))}
         </div>
       </div>
       <div
