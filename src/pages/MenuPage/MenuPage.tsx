@@ -7,7 +7,7 @@ const MenuPage = () => {
   const [activeTab, setActiveTab] = useState("");
 
   return (
-    <div className='h-full lg:w-full flex flex-col bg-black overflow-hidden p-4 lg:px-0 lg:py-4'>
+    <div className='h-full lg:w-full flex flex-col bg-black overflow-hidden p-2'>
       <Category activeTab={activeTab} setActiveTab={setActiveTab}/>
       <ProductSection activeTab={activeTab} />
     </div>

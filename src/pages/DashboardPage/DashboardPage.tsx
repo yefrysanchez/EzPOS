@@ -3,7 +3,7 @@ import OrdersChart from "../../components/Dashboards/OrdersChart";
 
 export const DashboardPage = () => {
   return (
-    <section className="h-screen w-full bg-black text-white pt-4 overflow-y-scroll lg:overflow-y-auto lg:flex flex-col">
+    <section className="h-screen w-full bg-black text-white p-2  overflow-y-scroll lg:overflow-y-auto lg:flex flex-col">
       <div className="">
         <h2 className="text-5xl font-bold text-white tracking-tighter">Dashboard</h2>
       </div>
@@ -29,7 +29,7 @@ export const DashboardPage = () => {
         <div className="col-span-2">
           <MostSold />
         </div>
-        <div className="border border-gray h-full mt-4 rounded-xl p-4 col-span-4">
+        <div className="border border-gray mt-4 rounded-xl p-4 col-span-4">
           <OrdersChart />
         </div>
       </div>

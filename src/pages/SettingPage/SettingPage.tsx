@@ -24,7 +24,7 @@ const SettingPage = () => {
   };
 
   return (
-    <section className="h-screen w-full bg-black pt-4 flex flex-col">
+    <section className="h-screen w-full bg-black flex flex-col p-2">
       <div className="mb-4">
         <h2 className="text-5xl font-bold text-white tracking-tighter">Settings</h2>
       </div>

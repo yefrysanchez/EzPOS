@@ -52,7 +52,7 @@ const AddProduct: React.FC<AddProductType> = ({
     <div
       className={`${itemQty === 0 && !itemIsinCart ? "bg-darkGray" : "bg-purple"} ${
         itemQty === 0 && !itemIsinCart ? "text-white" : ""
-      } active:scale-95 duration-200 text-black flex-shrink-0  p-4 h-[140px] md:h-[130px] select-none flex flex-col w-full max-w-[170px] md:max-w-[150px] rounded-xl`}
+      } active:scale-95 duration-200 text-black flex-shrink-0  p-4 h-[140px] md:h-[130px] select-none flex flex-col w-full max-w-[150px]  rounded-xl`}
     >
       <div className="text-xs text-lightGray">
         <span>{category}</span>

@@ -1,7 +1,7 @@
 
 const MostSold = () => {
   return (
-    <div className=" relative border border-gray h-full mt-4 rounded-xl p-4 overflow-hidden">
+    <div className="relative border border-gray mt-4 rounded-xl p-4 overflow-hidden">
     <h3 className="text-2xl">Today's Most Sold</h3>
     {mostSold.map((ms , i) => (
       <div key={ms.title} className="h-16 flex items-center gap-4">

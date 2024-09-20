@@ -39,7 +39,7 @@ const KeyPad: React.FC<KeyPadType> = ({ setIsSelected, user }) => {
   }, [PIN, user, navigate]); // Added user and navigate to dependency array
 
   return (
-    <div className="bg-darkGray relative h-full p-20 flex flex-col justify-center items-center gap-4">
+    <div className="bg-darkGray relative h-full flex flex-col justify-center items-center gap-4">
       <div
         onClick={() => setIsSelected(false)}
         className="absolute right-4 top-4 text-6xl cursor-pointer"

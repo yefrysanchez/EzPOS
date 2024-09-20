@@ -25,7 +25,7 @@ const EditDeleteProduct = () => {
           name="search"
         />
       </div>
-      <div className="max-h-[45vh] flex flex-col gap-2 overflow-y-scroll hide-scrollbar-firefox hide-scrollbar-webkit">
+      <div className="max-h-[37vh] flex flex-col gap-2 overflow-y-scroll hide-scrollbar-firefox hide-scrollbar-webkit">
         {allProducts.map((p) => (
           <div key={p.id} className="flex items-center border rounded-xl p-4">
             <div className="flex flex-col ">

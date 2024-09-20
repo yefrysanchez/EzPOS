@@ -11,7 +11,7 @@ const ProductSection: React.FC<ProductSectionType> = ({activeTab}) => {
   const category = products.filter(product => product.category === activeTab )
 
   return (
-    <section className="hide-scrollbar-webkit hide-scrollbar-firefox mt-4 h-full flex  gap-2 flex-wrap place-content-start overflow-y-scroll max-w-4xl">
+    <section className="hide-scrollbar-webkit hide-scrollbar-firefox mt-4 h-full flex gap-2 flex-wrap place-content-start overflow-y-scroll max-w-4xl">
       {category.map((p) => (
         <AddProduct
           key={p.id}
