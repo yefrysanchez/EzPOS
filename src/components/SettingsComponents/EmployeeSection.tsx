@@ -14,7 +14,7 @@ const EmployeeSection = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const filtered = employees.filter((em) =>
-      em.name.toLowerCase().includes(e.target.value)
+      em.name.toLowerCase().includes(e.target.value) || em.lastName.toLowerCase().includes(e.target.value)
     );
     setAllEmployee(filtered);
   };

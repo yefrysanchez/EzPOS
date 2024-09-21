@@ -48,7 +48,7 @@ const Navbar = () => {
           ))}
 
           <li className=" hover:text-red-500 w-fit duration-200 p-2 rounded-lg ">
-            <Link to={"/"}>Clock Out</Link>
+            <Link to={"/clockin"}>Clock Out</Link>
           </li>
         </ul>
       </div>

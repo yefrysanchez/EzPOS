@@ -6,10 +6,16 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import NavbarLayout from "../Layout/NavbarLayout";
 import { DashboardPage } from "../pages/DashboardPage/DashboardPage";
 import SettingPage from "../pages/SettingPage/SettingPage";
+import LoginRegisterPage from "../pages/LoginRegisterPage/LoginRegisterPage";
 
 export const router = createBrowserRouter([
   {
     index: true,
+    element: <LoginRegisterPage />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: "/clockin",
     element: <ClockIn />,
     errorElement: <NotFoundPage />,
   },

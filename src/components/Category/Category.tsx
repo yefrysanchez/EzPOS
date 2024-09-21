@@ -15,7 +15,7 @@ const Category: React.FC<CategoryType> = ({ setActiveTab, activeTab }) => {
       <div className="mb-4 tracking-tighter">
         <h2 className="text-5xl font-bold text-white">Menu</h2>
       </div>
-      <div className="flex gap-2 overflow-x-scroll lg:overflow-x-visible hide-scrollbar-webkit  hide-scrollbar-firefox">
+      <div className="relative flex xl:flex-wrap gap-2 overflow-x-scroll lg:overflow-x-auto hide-scrollbar-webkit  hide-scrollbar-firefox">
         <div onClick={() => setActiveTab("Coffee")}>
           <CategoryBtn
             activeTab={activeTab}
