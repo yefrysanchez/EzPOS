@@ -35,7 +35,6 @@ const KeyPad: React.FC<KeyPadType> = ({ setIsSelected, user }) => {
     if (strPIN === user?.pin) {
       navigate("/menu");
     }
-    console.log(PIN);
   }, [PIN, user, navigate]); // Added user and navigate to dependency array
 
   return (
