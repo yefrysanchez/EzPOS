@@ -1,7 +1,7 @@
 import MostSold from "../../components/Dashboards/MostSold";
 import OrdersChart from "../../components/Dashboards/OrdersChart";
 
-export const DashboardPage = () => {
+const DashboardPage = () => {
   return (
     <section className="h-screen w-full bg-black text-white p-2  overflow-y-scroll lg:overflow-y-auto lg:flex flex-col">
       <div className="">
@@ -36,6 +36,8 @@ export const DashboardPage = () => {
     </section>
   );
 };
+
+export default DashboardPage
 
 const orders = [
   { title: "Revenue", value: 1200.56 },

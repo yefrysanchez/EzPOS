@@ -39,7 +39,7 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
 
         <div className="mb-4 relative">
           <input
-            className="bg-lightGray/10 placeholder:text-gray block w-full p-4 rounded-xl"
+            className="form-input"
             placeholder="Email"
             required
             type="email"
@@ -50,7 +50,7 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
         </div>
         <div className="mb-2 relative">
           <input
-            className="bg-lightGray/10 placeholder:text-gray block w-full p-4 rounded-xl"
+            className="form-input"
             placeholder="Password"
             required
             type="password"
