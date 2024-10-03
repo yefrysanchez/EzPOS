@@ -2,7 +2,7 @@ import { useState } from "react";
 import Step1 from "../../components/MultiFormSteps/Step1";
 import Stepper from "../../components/MultiFormSteps/Stepper";
 import Step2 from "../../components/MultiFormSteps/Step2";
-import { AnimatePresence } from "framer-motion";
+
 
 const NewUserPage = () => {
   const [step, setStep] = useState(1);
@@ -10,7 +10,7 @@ const NewUserPage = () => {
   const multiFormSteps = (stepNum: number) => {
     switch (stepNum) {
       case 1:
-        return <Step1 setStep={setStep} />
+        return <Step1 step={step} setStep={setStep} />
       case 2:
         return <Step2 step={step} setStep={setStep} />
       default:
