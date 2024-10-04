@@ -1,25 +1,52 @@
+import { useState } from "react";
+import Loading from "../Loading/Loading";
+import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { fade } from "../../animations/animations";
+
 type Step3Type = {
   step: number;
   setStep: (n: number) => void;
 };
 
 const Step3: React.FC<Step3Type> = ({ setStep, step }) => {
+  const [isLoading, setIsloading] = useState(false);
+  const navigate = useNavigate();
+
   const goBack = () => {
     setStep(step - 1);
   };
 
   const handleNext = () => {
+    setIsloading(true);
     setTimeout(() => {
-      setStep(2);
-    }, 2000);
+      setIsloading(false);
+      navigate("/clockin");
+    }, 5000);
   };
 
   return (
     <div className="w-full">
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div variants={fade} initial="initial" animate="enter" exit="exit" className="bg-black flex flex-col justify-center items-center fixed h-screen w-full left-0 top-0 right-0 bottom-0">
+            <h1 className=" mb-1 text-white animate-pulse text-xl">Loading</h1>
+            <Loading />
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Review employees */}
       <div className="mb-4 flex flex-col items-center">
-        <div>
-          <span className="text-center text-black">Admin / Employees </span>
+        <div className="mb-2">
+          <span className="text-center text-black">
+            <span className="bg-darkGray text-white py-1 px-2 rounded-lg">
+              Admin
+            </span>{" "}
+            /{" "}
+            <span className="bg-purple text-black py-1 px-2 rounded-lg">
+              Employees
+            </span>{" "}
+          </span>
           <button
             onClick={() => setStep(1)}
             type="button"
@@ -28,7 +55,7 @@ const Step3: React.FC<Step3Type> = ({ setStep, step }) => {
             Edit
           </button>
         </div>
-        <div className="bg-lightGray/10 h-24 w-full rounded-lg p-2 overflow-y-scroll">
+        <div className="bg-lightGray/10 h-24 w-full rounded-lg p-2 overflow-y-scroll hide-scrollbar-webkit hide-scrollbar-firefox">
           <div className="flex gap-2 flex-wrap">
             {employees.map((e) => (
               <div
@@ -37,7 +64,7 @@ const Step3: React.FC<Step3Type> = ({ setStep, step }) => {
                   e.role === "admin"
                     ? "bg-darkGray text-white"
                     : "bg-purple text-black"
-                } text-sm w-fit font-bold h-16 rounded-lg p-4 flex items-center gap-2`}
+                } text-sm w-fit font-bold h-12 rounded-lg p-4 flex items-center gap-2`}
               >
                 <span className="capitalize">
                   {e.name} {e.lastName}
@@ -59,12 +86,12 @@ const Step3: React.FC<Step3Type> = ({ setStep, step }) => {
             Edit
           </button>
         </div>
-        <div className="bg-lightGray/10 h-24 w-full rounded-lg p-2 overflow-y-scroll">
+        <div className="bg-lightGray/10 h-24 w-full rounded-lg p-2 overflow-y-scroll hide-scrollbar-webkit hide-scrollbar-firefox">
           <div className="flex gap-2 flex-wrap">
             {categories.map((e) => (
               <div
                 key={e}
-                className={`bg-darkGray text-white text-sm w-fit font-bold h-16 rounded-lg p-4 flex items-center gap-2`}
+                className={`bg-darkGray text-white text-sm w-fit font-bold h-12 rounded-lg p-4 flex items-center gap-2`}
               >
                 <span className="capitalize">{e}</span>
               </div>
@@ -84,12 +111,12 @@ const Step3: React.FC<Step3Type> = ({ setStep, step }) => {
             Edit
           </button>
         </div>
-        <div className="bg-lightGray/10 h-24 w-full rounded-lg p-2 overflow-y-scroll">
+        <div className="bg-lightGray/10 h-24 w-full rounded-lg p-2 overflow-y-scroll hide-scrollbar-webkit hide-scrollbar-firefox">
           <div className="flex gap-2 flex-wrap">
             {products.map((e) => (
               <div
                 key={e.name}
-                className={`bg-darkGray text-white text-sm w-fit font-bold h-16 rounded-lg p-4 flex items-center gap-2`}
+                className={`bg-darkGray text-white text-sm w-fit font-bold h-12 rounded-lg p-4 flex items-center gap-2`}
               >
                 <span className="capitalize">{e.name}</span>
               </div>
@@ -110,7 +137,7 @@ const Step3: React.FC<Step3Type> = ({ setStep, step }) => {
           className="bg-black placeholder:text-gray w-28 h-16 p-4 rounded-xl font-bold text-white cursor-pointer disabled:opacity-60 disabled:cursor-auto"
           type="button"
         >
-          Next
+          Finish
         </button>
       </div>
     </div>
