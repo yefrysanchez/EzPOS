@@ -23,7 +23,7 @@ const Stepper: React.FC<StepperType> = ({step}) => {
     </li>
     <li className={`${step >= 3 && "text-black"} transition duration-500 flex md:w-fit flex-shrink-0 items-center text-gray-600 `}>
         <div className="flex items-center  ">
-        <span className={`${step >= 3 && "bg-black"} transition duration-500 w-6 h-6 border select-none border-indigo-200 rounded-full flex justify-center items-center mr-3 text-sm text-white lg:w-10 lg:h-10`}>3</span> Review
+        <span className={`${step >= 3 && "bg-black"} transition duration-500 w-6 h-6 border select-none border-indigo-200 rounded-full flex justify-center items-center mr-3 text-sm text-white lg:w-10 lg:h-10`}>3</span> Create
 
         </div>
     </li>
