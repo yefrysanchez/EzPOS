@@ -1,11 +1,12 @@
 import { useState } from "react";
-import Step1 from "../../components/MultiFormSteps/Step1";
 import Stepper from "../../components/MultiFormSteps/Stepper";
+import Step1 from "../../components/MultiFormSteps/Step1";
 import Step2 from "../../components/MultiFormSteps/Step2";
+import Step3 from "../../components/MultiFormSteps/Step3";
 
 
 const NewUserPage = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(3);
 
   const multiFormSteps = (stepNum: number) => {
     switch (stepNum) {
@@ -13,6 +14,8 @@ const NewUserPage = () => {
         return <Step1 step={step} setStep={setStep} />
       case 2:
         return <Step2 step={step} setStep={setStep} />
+      case 3:
+          return <Step3 step={step} setStep={setStep} />
       default:
         return null;
     }
