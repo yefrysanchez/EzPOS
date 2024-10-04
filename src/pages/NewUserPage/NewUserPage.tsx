@@ -6,7 +6,7 @@ import Step3 from "../../components/MultiFormSteps/Step3";
 
 
 const NewUserPage = () => {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
 
   const multiFormSteps = (stepNum: number) => {
     switch (stepNum) {
