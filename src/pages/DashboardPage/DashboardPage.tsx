@@ -3,7 +3,7 @@ import OrdersChart from "../../components/Dashboards/OrdersChart";
 
 const DashboardPage = () => {
   return (
-    <section className="h-screen w-full bg-black text-white p-2  overflow-y-scroll lg:overflow-y-auto lg:flex flex-col">
+    <section className="lg:h-screen w-full bg-black text-white p-2  overflow-y-scroll lg:overflow-y-auto lg:flex flex-col">
       <div className="">
         <h2 className="text-5xl font-bold text-white tracking-tighter">Dashboard</h2>
       </div>

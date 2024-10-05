@@ -1,6 +1,5 @@
 import { useState } from "react";
 import AlertError from "../Alerts/AlertError";
-import Loading from "../Loading/Loading";
 import { motion } from "framer-motion";
 import { fadeUp } from "../../animations/animations";
 import CategoryProductTabs from "./CategoryProductTabs";
@@ -17,6 +16,7 @@ const Step2: React.FC<StepType> = ({ setStep, step }) => {
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState("category");
   const [categories, setCategories] = useState<string[]>([]);
+  const [products, setProducts] = useState<string[]>([]);
 
   const goBack = () => {
     setStep(step - 1);
@@ -27,8 +27,9 @@ const Step2: React.FC<StepType> = ({ setStep, step }) => {
     setError(null);
     setTimeout(() => {
       setIsLoading(false);
-      setStep(2);
+      setStep(3);
     }, 2000);
+    setIsLoading(false);
   };
 
   const tabs = (tab: string) => {
@@ -69,11 +70,11 @@ const Step2: React.FC<StepType> = ({ setStep, step }) => {
         </button>
         <button
           onClick={handleNext}
-          disabled={isLoading || categories.length < 1}
+          disabled={isLoading || categories.length < 1 || products.length < 1 }
           className="bg-black placeholder:text-gray w-28 h-16 p-4 rounded-xl font-bold text-white cursor-pointer disabled:opacity-60 disabled:cursor-auto"
           type="submit"
         >
-          {isLoading ? <Loading /> : "Next"}
+          Next
         </button>
       </div>
     </motion.div>

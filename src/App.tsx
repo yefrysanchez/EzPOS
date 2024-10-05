@@ -6,7 +6,7 @@ function App() {
 
 
   return (
-    <main className='flex lg:flex-row flex-col flex-shrink-0 bg-black h-screen font-inter text-lightGray'>
+    <main className='h-screen flex lg:flex-row flex-col flex-shrink-0 bg-black font-inter text-lightGray'>
       <RouterProvider router={router} />
     </main>
   )

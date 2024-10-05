@@ -3,7 +3,7 @@ import { User } from "../../types/types";
 type ClockInComponentType = {
   name: string,
   lastName: string
-  user: User
+  user: User | undefined
 }
 
 

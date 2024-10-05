@@ -8,11 +8,11 @@ const ProductListMultiForm = () => {
           key={p.id}
           className=" bg-darkGray overflow-hidden h-24 rounded-lg w-full pl-2 flex justify-between"
         >
-          <div className="flex flex-col justify-center h-full">
-            <span className="text-nowrap whitespace-nowrap text-ellipsis overflow-hidden w-[160px]">
+          <div className="flex flex-col justify-center h-full w-4/5">
+            <span className="text-nowrap whitespace-nowrap text-ellipsis overflow-hidden w-full">
               {p.name}
             </span>
-            <span className="text-nowrap whitespace-nowrap text-ellipsis overflow-hidden w-[160px]">
+            <span className="text-nowrap whitespace-nowrap text-ellipsis overflow-hidden w-full">
               {p.category}
             </span>
             <span>${p.price.toFixed(2)}</span>

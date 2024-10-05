@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 type EmployeeBadgeType = {
   name: string;
   last: string;
-  role: string;
+  isAdmin: boolean;
   employee: EmployeeType[];
   setEmployee: (employee: EmployeeType[]) => void 
   index: number;
@@ -14,11 +14,11 @@ type EmployeeType = {
     firstName: string;
     lastName: string;
     pin: string;
-    role: string;
+    isAdmin: boolean;
    
   };
 
-const EmployeeBadge: React.FC<EmployeeBadgeType> = ({ name, last, role, employee , setEmployee, index }) => {
+const EmployeeBadge: React.FC<EmployeeBadgeType> = ({ name, last, isAdmin, employee , setEmployee, index }) => {
   
 
 
@@ -30,7 +30,7 @@ const EmployeeBadge: React.FC<EmployeeBadgeType> = ({ name, last, role, employee
     return (
     <div
       className={`${
-        role === "Admin" ? "bg-darkGray text-white" : "bg-purple text-black"
+        isAdmin ? "bg-darkGray text-white" : "bg-purple text-black"
       }  text-sm w-fit font-bold py-1 px-2 rounded-full flex items-center gap-2`}
     >
       <span className="capitalize">

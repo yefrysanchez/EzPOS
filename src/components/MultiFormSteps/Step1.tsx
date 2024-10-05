@@ -14,7 +14,7 @@ type EmployeeType = {
   firstName: string;
   lastName: string;
   pin: string;
-  role: string;
+  isAdmin: boolean;
 };
 
 const Step1: React.FC<StepType> = ({ setStep, step }) => {
@@ -22,7 +22,7 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
   const [error, setError] = useState<string | null>(null);
   const [pin, setPin] = useState("");
   const [employee, setEmployee] = useState<EmployeeType[]>([]);
-  const [role, setRole] = useState<string>("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
@@ -42,10 +42,17 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
   // Handle Submit /////////
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    setError(null)
+    //validations
     if (pin.length !== 4) {
       setError("PIN most contain 4 digits");
       return;
     }
+
+    if(!employee.find(e => e.isAdmin === true) && !isAdmin){
+      return setError("Please create at least 1 admin first.")
+    }
+    
     setIsLoading(true);
     setError(null);
     setTimeout(() => {
@@ -56,18 +63,19 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
           pin,
           firstName,
           lastName,
-          role,
+          isAdmin,
         },
       ]);
     }, 1000);
     setPin("");
     setFirstName("");
     setLastName("");
+    setIsAdmin(false)
   };
 
   //handle Role
   const handleRole = (e: ChangeEvent<HTMLInputElement>) => {
-    setRole(e.target.value);
+    setIsAdmin(e.target.checked);
   };
 
   //Next BTN /////////
@@ -75,12 +83,12 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
     //Validations
 
     if (employee.length < 1) {
-      setError("Please provide at least 1 Admin");
+      setError("Please provide at least 1 Admin.");
       return;
     }
 
-    setStep(step + 1);
     setError(null);
+    setStep(step + 1);
   };
 
   return (
@@ -97,35 +105,23 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
       </h1>
       <h2 className="mb-8 text-gray">Please add employees</h2>
       {error && <AlertError error={error} />}
-      <div className="h-12 flex items-center ">
-        <div className="hover:bg-lightGray/10 w-1/2 py-2 rounded-lg transition ">
+      <div className="h-12 flex items-center justify-center">
+        <div className="py-2 rounded-lg transition">
           <label className="cursor-pointer" htmlFor="admin">
-            Admin{" "}
+            is Admin?{" "}
             <input
+           
               onChange={handleRole}
               className="cursor-pointer"
-              type="radio"
+              type="checkbox"
               name="role"
               id="admin"
               value={"Admin"}
+              checked = {isAdmin}
             />
           </label>
         </div>
-        <div className="hover:bg-lightGray/10 w-1/2 py-2 rounded-lg transition ">
-          <label onClick={() => { if(employee.length < 1) return setError("Please provide 1 Admin first.") } } className="cursor-pointer" htmlFor="employee">
-            Employee{" "}
-            <input
-            disabled={employee.length < 1}
-              onChange={handleRole}
-              value={"Employee"}
-              required
-              className="cursor-pointer"
-              type="radio"
-              name="role"
-              id="employee"
-            />
-          </label>
-        </div>
+       
       </div>
       <div className="flex flex-col md:flex-row gap-4 mb-4">
         <input
@@ -175,7 +171,7 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
                 key={i}
                 name={e.firstName}
                 last={e.lastName}
-                role={e.role}
+                isAdmin={e.isAdmin}
                 employee={employee}
                 setEmployee={setEmployee}
                 index = {i}

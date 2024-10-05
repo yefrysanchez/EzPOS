@@ -26,9 +26,9 @@ const NewUserPage = () => {
       className="bg-gradient-to-r
     from-pink
     via-blue
-    to-purple background-animate w-full min-h-screen flex flex-col justify-center items-center p-2"
+    to-purple background-animate w-full h-screen flex flex-col justify-center items-center lg:p-2"
     >
-      <div className="max-w-xl min-h-[600px] w-full flex flex-col gap-8 items-center bg-white rounded-xl p-4">
+      <div className="max-w-xl min-h-[500px] h-full lg:h-fit w-full flex flex-col gap-8 items-center bg-white rounded-xl p-4 overflow-y-scroll hide-scrollbar-webkit  hide-scrollbar-firefox">
         <Stepper step={step} />
         {multiFormSteps(step)}
       </div>
