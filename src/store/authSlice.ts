@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AccountType, CategoryType, EmployeeType, ProductType} from "../types/types"
 
 type AuthType = {
-    account: AccountType | null
+    account: AccountType | null,
+    clockedEmployee: EmployeeType | null
     employees: EmployeeType[],
     category : CategoryType[], 
     products: ProductType[]
@@ -12,9 +13,10 @@ type AuthType = {
 
 const initialState: AuthType =  {
     account: null,
+    clockedEmployee: null,
     employees: [],
     category: [],
-    products: [] 
+    products: [], 
 } 
 
 const authSlice = createSlice({

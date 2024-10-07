@@ -8,31 +8,33 @@ import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import SettingPage from "../pages/SettingPage/SettingPage";
 import LoginRegisterPage from "../pages/LoginRegisterPage/LoginRegisterPage";
 import NewUserPage from "../pages/NewUserPage/NewUserPage";
+import AuthProtected from "../components/ProtectedRoutes/AuthProtected";
+
 
 export const router = createBrowserRouter([
   {
     index: true,
-    element: <LoginRegisterPage />,
+    element: <AuthProtected><LoginRegisterPage /></AuthProtected>,
     errorElement: <NotFoundPage />,
   },
   {
     path: "/newuser",
-    element: <NewUserPage />,
+    element: <AuthProtected><NewUserPage /></AuthProtected>,
     errorElement: <NotFoundPage />,
   },
   {
     path: "/clockin",
-    element: <ClockIn />,
+    element: <AuthProtected><ClockIn /></AuthProtected>,
     errorElement: <NotFoundPage />,
   },
   {
     path: "/menu",
-    element: <MenuLayout />,
+    element: <AuthProtected><MenuLayout /></AuthProtected>,
     errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
-        element: <MenuPage />,
+        element: <AuthProtected><MenuPage /></AuthProtected>,
       },
     ],
   },
@@ -42,11 +44,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <DashboardPage />,
+        element: <AuthProtected><DashboardPage /></AuthProtected>,
       },
       {
         path: "/settings",
-        element: <SettingPage />,
+        element: <AuthProtected><SettingPage /></AuthProtected>,
       },
     ],
   },
