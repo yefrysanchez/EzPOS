@@ -20,6 +20,7 @@ const Step2: React.FC<StepType> = ({ setStep, step }) => {
 
   const goBack = () => {
     setStep(step - 1);
+    setProducts([])
   };
 
   const handleNext = () => {
