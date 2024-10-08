@@ -26,6 +26,10 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
+      // Basic validation
+      if (!email || !password) {
+        throw new Error("Please fill in all fields.");
+      }
       const res = await fetch(`${backend}auth/login`, {
         method: "POST",
         headers: {
@@ -39,7 +43,7 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
 
       if (!res.ok) {
         setIsLoading(false);
-        throw new Error("Creck Credencials");
+        throw new Error("Creck Credencials.");
       }
 
       const data = await res.json();
@@ -47,10 +51,11 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
       dispatch(login(data));
 
       setError(null);
-      setIsLoading(false);
     } catch (e) {
-      setError((e as Error).message || "An unexpected error occurred");
+      setError((e as Error).message || "An unexpected error occurred.");
       setIsLoading(false);
+    } finally {
+      setIsLoading(false); // Ensure loading state is reset
     }
   };
 

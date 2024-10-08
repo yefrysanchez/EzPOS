@@ -3,6 +3,9 @@ import { fadeUp } from "../../animations/animations";
 import { FormEvent, useState } from "react";
 import AlertError from "../Alerts/AlertError";
 import Loading from "../Loading/Loading";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/authSlice";
 
 type FuncProp = {
   setIsRegistered: (isRegistered: boolean) => void;
@@ -11,14 +14,45 @@ type FuncProp = {
 const Register: React.FC<FuncProp> = ({ setIsRegistered }) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [first, setFirst] = useState("");
+  const [second, setSecond] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const url = import.meta.env.VITE_BACKEND + "auth/register";
+  const navigate = useNavigate();
+  // Redux /////////
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `${first} ${second}`,
+          email,
+          password,
+        }),
+      });
+
+      if (!res.ok) {
+        setIsLoading(false);
+        throw new Error("Please complete all fields.");
+      }
+      const data = await res.json();
+      dispatch(login(data));
+      setError(null);
       setIsLoading(false);
-      setError("Server is dowm :(");
-    }, 2000);
+
+      navigate("/newUser");
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
   };
   return (
     <motion.section
@@ -34,27 +68,26 @@ const Register: React.FC<FuncProp> = ({ setIsRegistered }) => {
 
         <div className="md:flex gap-2 mb-4">
           <input
+            onChange={(e) => setFirst(e.target.value)}
+            value={first}
             className="bg-lightGray/10 placeholder:text-gray w-full p-4 rounded-xl mb-4 md:mb-0 block md:w-1/2 "
-            placeholder="Name"
+            placeholder="First Name"
             required
             type="text"
           />
           <input
+            onChange={(e) => setSecond(e.target.value)}
+            value={second}
             className="bg-lightGray/10 placeholder:text-gray w-full p-4 rounded-xl block md:w-1/2"
-            placeholder="Last name"
+            placeholder="Last Name"
             required
             type="text"
           />
         </div>
 
         <input
-          className="bg-lightGray/10 placeholder:text-gray block w-full p-4 rounded-xl mb-4"
-          placeholder="Username"
-          required
-          type="text"
-        />
-
-        <input
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
           className="bg-lightGray/10 placeholder:text-gray block w-full p-4 rounded-xl mb-4"
           placeholder="Email"
           required
@@ -62,6 +95,8 @@ const Register: React.FC<FuncProp> = ({ setIsRegistered }) => {
         />
 
         <input
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
           className="bg-lightGray/10 placeholder:text-gray block w-full p-4 rounded-xl mb-4"
           placeholder="Password"
           required

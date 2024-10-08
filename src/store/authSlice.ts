@@ -25,9 +25,11 @@ const authSlice = createSlice({
     reducers: {
         login: (state, action) => {
             state.account = action.payload;
+            localStorage.setItem("account", JSON.stringify(action.payload)); // Save to local storage
         },
         logout: (state) => {
             state.account = null; // Reset account on logout
+            localStorage.removeItem("account"); // Remove from local storage
         },
         setEmployees: (state, action) => {
             state.employees = action.payload;
