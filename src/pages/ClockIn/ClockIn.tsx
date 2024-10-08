@@ -1,28 +1,35 @@
 import { useState } from "react";
 import ClockInComponent from "../../components/ClockInComponent/ClockInComponent";
 import KeyPad from "../../components/KeyPad/KeyPad";
-import { employees } from "../../dummyData/employee";
-import { User } from "../../types/types";
+import { EmployeeType } from "../../types/types";
 import { motion } from "framer-motion";
 import { fadeUp } from "../../animations/animations";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import Loading from "../../components/Loading/Loading";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/authSlice";
 
 const ClockIn = () => {
   const [isSelected, setIsSelected] = useState(false);
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<EmployeeType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  // Redux ///////////////
+  const {employees} = useSelector((state: RootState) => state.auth)
+  const dispatch = useDispatch()
 
-  const handleUser = (eUser: User) => {
+  const handleUser = (eUser: EmployeeType) => {
     setIsSelected(true);
     setUser(eUser);
   };
 
-  const handleLogout = () => {
+  const handleLogout =  () => {
     setIsLoading(true)
     setTimeout(() => {
-      setIsLoading(false)
-    }, 3000);
+      dispatch(logout())
+    }, 2000);
+    
   };
 
   return (
@@ -40,7 +47,7 @@ const ClockIn = () => {
           <div className="flex flex-col overflow-y-scroll h-5/6 hide-scrollbar-webkit hide-scrollbar-firefox">
             {employees.map((e) => (
               <button disabled={isLoading} key={e.name} onClick={() => handleUser(e)}>
-                <ClockInComponent user={user} name={e.name} lastName={e.lastName} />
+                <ClockInComponent user={e} />
               </button>
             ))}
           </div>

@@ -5,22 +5,53 @@ import { fadeUp } from "../../animations/animations";
 import { FormEvent, useState } from "react";
 import AlertError from "../Alerts/AlertError";
 import Loading from "../Loading/Loading";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/authSlice";
 
 type FuncProp = {
   setIsRegistered: (isRegistered: boolean) => void;
 };
 
 const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
+  const backend = import.meta.env.VITE_BACKEND;
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // Redux ///////////////////
 
-  const handleSubmit = async (e:FormEvent) => {
-    e.preventDefault()
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
-      setError("User not found");
+    try {
+      const res = await fetch(`${backend}auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      if (!res.ok) {
+        setIsLoading(false);
+        throw new Error("Creck Credencials");
+      }
+
+      const data = await res.json();
+
+      dispatch(login(data));
+
+      setError(null);
       setIsLoading(false);
-    }, 2000);
+    } catch (e) {
+      setError((e as Error).message || "An unexpected error occurred");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -39,10 +70,12 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
 
         <div className="mb-4 relative">
           <input
+            onChange={(e) => setEmail(e.target.value)}
             className="form-input"
             placeholder="Email"
             required
             type="email"
+            value={email}
           />
           <div className="absolute top-3 right-2 text-3xl text-gray-400">
             <CiUser />
@@ -50,10 +83,12 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
         </div>
         <div className="mb-2 relative">
           <input
+            onChange={(e) => setPassword(e.target.value)}
             className="form-input"
             placeholder="Password"
             required
             type="password"
+            value={password}
           />
           <div className="absolute top-3 right-2 text-3xl text-gray-400">
             <CiLock />

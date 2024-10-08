@@ -11,13 +11,6 @@ export type cartType = {
   taxPorcentage: number;
 };
 
-export interface User {
-  name: string;
-  lastName: string;
-  pin: string;
-  hourRate: number;
-  userName: string;
-}
 
 export type AccountType = {
   id: number ,

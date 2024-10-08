@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
-import { User } from "../../types/types";
+import { EmployeeType } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 
 type KeyPadType = {
   setIsSelected: (s: boolean) => void;
-  user: User | undefined;
+  user: EmployeeType | null;
 };
 
 const KeyPad: React.FC<KeyPadType> = ({ setIsSelected, user }) => {
@@ -48,7 +48,7 @@ const KeyPad: React.FC<KeyPadType> = ({ setIsSelected, user }) => {
 
       <div className="text-center">
         <p>Enter your PIN for:</p>
-        <p className="text-white font-bold uppercase">{user?.userName}</p>
+        <p className="text-white font-bold uppercase">{user?.name}</p>
       </div>
       <div className="flex gap-2">
         {Array.from({ length: 4 }, (_, index) => (
