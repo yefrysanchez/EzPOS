@@ -1,95 +1,127 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import AlertError from "../Alerts/AlertError";
 import Loading from "../Loading/Loading";
 import { motion } from "framer-motion";
 import { fadeUp } from "../../animations/animations";
 import EmployeeBadge from "./EmployeeBadge";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store/store";
+import { setEmployees } from "../../store/authSlice";
+import { EmployeeType } from "../../types/types";
 
 type StepType = {
   setStep: (step: number) => void;
   step: number;
 };
 
-type EmployeeType = {
-  firstName: string;
-  lastName: string;
-  pin: string;
-  isAdmin: boolean;
-};
-
 const Step1: React.FC<StepType> = ({ setStep, step }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pin, setPin] = useState("");
-  const [employee, setEmployee] = useState<EmployeeType[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [effectTrigger, setEffectTrigger] = useState(false);
+  const url = import.meta.env.VITE_BACKEND;
 
-  // Handle PIN ///////////
-  const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
-    if (Number(e.target.value) < 0) {
-      return;
-    }
-    const validatePIN = e.target.value.split("");
+  const { employees, account } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
 
-    if (validatePIN.length > 4) {
-      return;
-    }
-    setPin(validatePIN.join(""));
-  };
-
-  // Handle Submit /////////
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setError(null)
-    //validations
-    if (pin.length !== 4) {
-      setError("PIN most contain 4 digits");
-      return;
-    }
-
-    if(!employee.find(e => e.isAdmin === true) && !isAdmin){
-      return setError("Please create at least 1 admin first.")
-    }
-    
-    setIsLoading(true);
-    setError(null);
-    setTimeout(() => {
-      setIsLoading(false);
-      setEmployee([
-        ...employee,
-        {
-          pin,
-          firstName,
-          lastName,
-          isAdmin,
-        },
-      ]);
-    }, 1000);
+  const resetForm = () => {
     setPin("");
     setFirstName("");
     setLastName("");
-    setIsAdmin(false)
+    setIsAdmin(false);
   };
 
-  //handle Role
+  const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d{0,4}$/.test(value)) {
+      setPin(value);
+    }
+  };
+
   const handleRole = (e: ChangeEvent<HTMLInputElement>) => {
     setIsAdmin(e.target.checked);
   };
 
-  //Next BTN /////////
-  const handleNext = () => {
-    //Validations
+  const validateForm = () => {
+    if (pin.length !== 4) {
+      setError("PIN must contain 4 digits");
+      return false;
+    }
+    if (!employees.some((e) => e.isAdmin) && !isAdmin) {
+      setError("Please create at least 1 admin first.");
+      return false;
+    }
+    setError(null);
+    return true;
+  };
 
-    if (employee.length < 1) {
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${url}employees`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pin,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          isAdmin,
+          accountId: account?.id
+        })
+      });
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: Unable to create employees.`);
+      }
+      
+    } catch (e) {
+      setError((e as Error).message || "An unexpected error occurred.");
+    } finally {
+      resetForm();
+      setEffectTrigger((prev) => !prev);
+      setIsLoading(false);
+    }
+  };
+
+  const handleNext = () => {
+    if (employees.length < 1) {
       setError("Please provide at least 1 Admin.");
       return;
     }
-
     setError(null);
     setStep(step + 1);
   };
+
+  const getEmployees = useCallback(async () => {
+    try {
+      const res = await fetch(`${url}employees`);
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: Unable to fetch employees.`);
+      }
+      const data = await res.json();
+      const filtered = data.filter(
+        (e: EmployeeType) => e.accountId === account?.id
+      );
+      dispatch(setEmployees(filtered));
+    } catch (error) {
+      console.error("Failed to fetch employees:", error);
+    }
+  }, [url, account, dispatch]);
+
+  useEffect(() => {
+    getEmployees();
+  }, [getEmployees, effectTrigger]);
 
   return (
     <motion.form
@@ -106,22 +138,18 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
       <h2 className="mb-8 text-gray">Please add employees</h2>
       {error && <AlertError error={error} />}
       <div className="h-12 flex items-center justify-center">
-        <div className="py-2 rounded-lg transition">
-          <label className="cursor-pointer" htmlFor="admin">
-            is Admin?{" "}
-            <input
-           
-              onChange={handleRole}
-              className="cursor-pointer"
-              type="checkbox"
-              name="role"
-              id="admin"
-              value={"Admin"}
-              checked = {isAdmin}
-            />
-          </label>
-        </div>
-       
+        <label className="cursor-pointer" htmlFor="admin">
+          is Admin?{" "}
+          <input
+            onChange={handleRole}
+            className="cursor-pointer"
+            type="checkbox"
+            name="role"
+            id="admin"
+            value={"Admin"}
+            checked={isAdmin}
+          />
+        </label>
       </div>
       <div className="flex flex-col md:flex-row gap-4 mb-4">
         <input
@@ -154,27 +182,27 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
       </div>
       <button
         disabled={isLoading}
-        className="bg-black mt-auto self-end placeholder:text-gray mb-4 p-4 rounded-xl font-bold text-white cursor-pointer"
+        className="bg-black mt-auto self-end placeholder:text-gray h-16 mb-4 p-4 rounded-xl font-bold text-white cursor-pointer"
         type="submit"
       >
         {isLoading ? <Loading /> : "Add"}
       </button>
       <div className="relative bg-lightGray/10 min-h-24 mb-1 rounded-lg p-2">
-        {employee.length < 1 ? (
+        {employees.length < 1 ? (
           <span className="text-lightGray absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             No Employees
           </span>
         ) : (
           <div className="flex gap-1 flex-wrap">
-            {employee.map((e, i) => (
+            {employees.map((e) => (
               <EmployeeBadge
-                key={i}
-                name={e.firstName}
-                last={e.lastName}
+                key={e.id}
+                name={e.name}
                 isAdmin={e.isAdmin}
-                employee={employee}
-                setEmployee={setEmployee}
-                index = {i}
+                id={e.id}
+                setError={setError}
+                setEffectTrigger={setEffectTrigger}
+                effectTrigger={effectTrigger}
               />
             ))}
           </div>
