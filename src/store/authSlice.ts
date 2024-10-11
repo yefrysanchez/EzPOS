@@ -12,6 +12,7 @@ type AuthType = {
   employees: EmployeeType[];
   category: CategoryType[];
   products: ProductType[];
+  step: number;
 };
 
 const initialState: AuthType = {
@@ -20,6 +21,7 @@ const initialState: AuthType = {
   employees: [],
   category: [],
   products: [],
+  step: 1,
 };
 
 const authSlice = createSlice({
@@ -33,9 +35,12 @@ const authSlice = createSlice({
     logout: (state) => {
       state.account = null; // Reset account on logout
       localStorage.removeItem("account"); // Remove from local storage
+      localStorage.removeItem("employees"); // Remove from local storage
+      localStorage.removeItem("category"); // Remove from local storage
     },
     setEmployees: (state, action) => {
-      state.employees = action.payload;
+      const employees:EmployeeType[] = action.payload
+      state.employees = employees.filter(e => e.accountId === state.account?.id)
       localStorage.setItem("employees", JSON.stringify(action.payload)); // Save to local storage
     },
     removeEmployees: (state, action) => {
@@ -45,10 +50,25 @@ const authSlice = createSlice({
     },
 
     setCategories: (state, action) => {
-      state.category = action.payload;
+      const category:CategoryType[] = action.payload;
+      state.category = category.filter(c => c.accountId === state.account?.id)
+      localStorage.setItem("category", JSON.stringify(state.employees)); // Save to local storage
     },
     setProducts: (state, action) => {
       state.products = action.payload;
+    },
+    nextStep: (state) => {
+      state.step = state.step + 1;
+      localStorage.setItem("step", String(state.step));
+
+    },
+    backStep: (state) => {
+      state.step = state.step - 1;
+      localStorage.setItem("step", String(state.step));
+    },
+    setStep: (state, action) => {
+      state.step = action.payload
+      localStorage.setItem("step", String(action.payload));
     },
   },
 });
@@ -60,5 +80,8 @@ export const {
   removeEmployees,
   setCategories,
   setProducts,
+  nextStep,
+  backStep,
+  setStep,
 } = authSlice.actions;
 export default authSlice.reducer;

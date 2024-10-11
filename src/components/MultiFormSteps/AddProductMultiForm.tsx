@@ -2,17 +2,18 @@ import { FormEvent, useState } from "react";
 import AlertError from "../Alerts/AlertError";
 import Loading from "../Loading/Loading";
 import ProductListMultiForm from "./ProductListMultiForm";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
-type AddProductMultiFormType = {
-  categories: string[];
-};
 
-const AddProductMultiForm: React.FC<AddProductMultiFormType> = ({
-  categories,
-}) => {
+const AddProductMultiForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Redux ////////////
+  const {category} = useSelector((state:RootState) => state.auth)
+  ////////////////////
 
   //to send to the DB
   const [categoryInput, setCategoryInput] = useState("");
@@ -79,9 +80,9 @@ const AddProductMultiForm: React.FC<AddProductMultiFormType> = ({
               <option value="" disabled>
                 Select a category
               </option>
-              {categories.map((e) => (
-                <option key={e} value={e}>
-                  {e}
+              {category.map((e) => (
+                <option key={e.id} value={e.name}>
+                  {e.name}
                 </option>
               ))}
             </select>

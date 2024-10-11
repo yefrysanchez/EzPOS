@@ -5,45 +5,39 @@ import { fadeUp } from "../../animations/animations";
 import CategoryProductTabs from "./CategoryProductTabs";
 import AddCategoryForm from "./AddCategoryForm";
 import AddProductMultiForm from "./AddProductMultiForm";
+import { useDispatch } from "react-redux";
+import { backStep, nextStep } from "../../store/authSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
-type StepType = {
-  setStep: (step: number) => void;
-  step: number;
-};
 
-const Step2: React.FC<StepType> = ({ setStep, step }) => {
+
+const Step2 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState("category");
-  const [categories, setCategories] = useState<string[]>([]);
+
   const [products, setProducts] = useState<string[]>([]);
 
+  const dispatch = useDispatch()
+  const {category} = useSelector((state:RootState) => state.auth)
+
   const goBack = () => {
-    setStep(step - 1);
-    setProducts([])
+    dispatch(backStep())
+    setProducts([]);
   };
 
   const handleNext = () => {
-    setIsLoading(true);
     setError(null);
-    setTimeout(() => {
-      setIsLoading(false);
-      setStep(3);
-    }, 2000);
-    setIsLoading(false);
+    dispatch(nextStep())
   };
 
   const tabs = (tab: string) => {
     switch (tab) {
       case "category":
-        return (
-          <AddCategoryForm
-            setCategories={setCategories}
-            categories={categories}
-          />
-        );
+        return <AddCategoryForm />;
       case "products":
-        return <AddProductMultiForm categories={categories} />;
+        return <AddProductMultiForm />;
 
       default:
         return null;
@@ -57,7 +51,7 @@ const Step2: React.FC<StepType> = ({ setStep, step }) => {
       exit="exit"
       className="flex flex-col text-center text-black mb-4 rounded-lg max-w-md w-full h-full"
     >
-      <CategoryProductTabs categories={categories} tab={tab} setTab={setTab} />
+      <CategoryProductTabs tab={tab} setTab={setTab} />
       {error && <AlertError error={error} />}
 
       {tabs(tab)}
@@ -71,7 +65,7 @@ const Step2: React.FC<StepType> = ({ setStep, step }) => {
         </button>
         <button
           onClick={handleNext}
-          disabled={isLoading || categories.length < 1 || products.length < 1 }
+          disabled={isLoading || category.length < 1 || products.length < 1}
           className="bg-black placeholder:text-gray w-28 h-16 p-4 rounded-xl font-bold text-white cursor-pointer disabled:opacity-60 disabled:cursor-auto"
           type="submit"
         >

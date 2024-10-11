@@ -1,28 +1,71 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { setCategories } from "../../store/authSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { CategoryType } from "../../types/types";
+import Loading from "../Loading/Loading";
 
-type AddCategoryFormType = {
-  categories: string[];
-  setCategories: (categories: string[]) => void;
-};
-
-const AddCategoryForm: React.FC<AddCategoryFormType> = ({
-  categories,
-  setCategories,
-}) => {
+const AddCategoryForm = () => {
   const [input, setInput] = useState("");
 
-  const handleCategory = () => {
+  const [trigger, setTrigger] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const url = import.meta.env.VITE_BACKEND;
+
+  // Redux /////////////////
+  const dispatch = useDispatch();
+  const { account } = useSelector((state: RootState) => state.auth);
+  const { category } = useSelector((state: RootState) => state.auth);
+  /////////////////////////
+
+  const handleCategory = async () => {
     const trimmedInput = input.trim();
-    if (trimmedInput && !categories.includes(trimmedInput)) {
-      setCategories([...categories, trimmedInput.toLowerCase()]);
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${url}productcategory`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: trimmedInput,
+          accountId: account?.id,
+        }),
+      });
+      if (!res.ok) {
+        setIsLoading(false);
+        throw new Error(`Response status: ${res.status}`);
+      }
       setInput("");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      setTrigger(!trigger);
     }
   };
 
-  const removeCategory = (index: number) => {
-    const updatedCategories = categories.filter((_, i) => i !== index);
-    setCategories(updatedCategories);
+  const removeCategory = async (id: number) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${url}productcategory/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) {
+        setIsLoading(false);
+        throw new Error(`Response status: ${res.status}`);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      setTrigger(!trigger);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -31,6 +74,26 @@ const AddCategoryForm: React.FC<AddCategoryFormType> = ({
       handleCategory();
     }
   };
+
+  const getCategory = async () => {
+    try {
+      const res = await fetch(`${url}productcategory`);
+      if (!res.ok) {
+        throw new Error(`Response status: ${res.status}`);
+      }
+      const data = await res.json();
+      const filtered = data.filter(
+        (e: CategoryType) => e.accountId === account?.id
+      );
+      dispatch(setCategories(filtered));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, [trigger]);
 
   return (
     <div className="mb-4 relative">
@@ -45,6 +108,7 @@ const AddCategoryForm: React.FC<AddCategoryFormType> = ({
       />
       <div className="flex justify-end">
         <button
+          disabled={isLoading}
           onClick={handleCategory}
           className="bg-black py-2 px-3 rounded-xl font-bold text-white cursor-pointer"
           type="button"
@@ -52,22 +116,32 @@ const AddCategoryForm: React.FC<AddCategoryFormType> = ({
           Add
         </button>
       </div>
-      <div className="mt-4 flex flex-wrap gap-1">
-        {categories.map((category, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-2 bg-darkGray text-white w-fit p-2 rounded-lg"
-          >
-            <span className="capitalize">{category}</span>
-            <button
-              onClick={() => removeCategory(i)}
-              type="button"
-              aria-label={`Remove ${category}`}
-            >
-              <IoClose />
-            </button>
+      <div className="mt-4 flex flex-wrap gap-1 relative p-4 bg-lightGray/10 min-h-12 max-h-16 overflow-y-scroll rounded-lg">
+        {isLoading && (
+          <div className="bg-lightGray/40 absolute inset-0 rounded-lg flex justify-center">
+            <Loading />
           </div>
-        ))}
+        )}
+        {category.length < 1 ? (
+          <span className="my-auto text-darkGray">No categories</span>
+        ) : (
+          category.map((category) => (
+            <div
+              key={category.id}
+              className="flex items-center gap-2 bg-darkGray text-white w-fit p-2 rounded-lg"
+            >
+              <span className="capitalize">{category.name}</span>
+              <button
+                disabled={isLoading}
+                onClick={() => removeCategory(category.id)}
+                type="button"
+                aria-label={`Remove ${category}`}
+              >
+                <IoClose />
+              </button>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

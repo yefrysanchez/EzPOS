@@ -1,7 +1,6 @@
 import {
   ChangeEvent,
   FormEvent,
-  useCallback,
   useEffect,
   useState,
 } from "react";
@@ -12,23 +11,21 @@ import { fadeUp } from "../../animations/animations";
 import EmployeeBadge from "./EmployeeBadge";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
-import { setEmployees } from "../../store/authSlice";
-import { EmployeeType } from "../../types/types";
+import { nextStep, setEmployees } from "../../store/authSlice";
 
-type StepType = {
-  setStep: (step: number) => void;
-  step: number;
-};
 
-const Step1: React.FC<StepType> = ({ setStep, step }) => {
+
+
+const Step1 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pin, setPin] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [effectTrigger, setEffectTrigger] = useState(false);
+  const [trigger, setTrigger] = useState(false);
   const url = import.meta.env.VITE_BACKEND;
+
 
   const { employees, account } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
@@ -89,7 +86,7 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
       setError((e as Error).message || "An unexpected error occurred.");
     } finally {
       resetForm();
-      setEffectTrigger((prev) => !prev);
+      setTrigger(!trigger)
       setIsLoading(false);
     }
   };
@@ -100,28 +97,27 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
       return;
     }
     setError(null);
-    setStep(step + 1);
+    dispatch(nextStep())
   };
 
-  const getEmployees = useCallback(async () => {
+  const getEmployees = async () => {
+
     try {
       const res = await fetch(`${url}employees`);
       if (!res.ok) {
         throw new Error(`Error ${res.status}: Unable to fetch employees.`);
       }
       const data = await res.json();
-      const filtered = data.filter(
-        (e: EmployeeType) => e.accountId === account?.id
-      );
-      dispatch(setEmployees(filtered));
+
+      dispatch(setEmployees(data));
     } catch (error) {
       console.error("Failed to fetch employees:", error);
     }
-  }, [url, account, dispatch]);
+  }
 
   useEffect(() => {
     getEmployees();
-  }, [getEmployees, effectTrigger]);
+  }, [trigger]);
 
   return (
     <motion.form
@@ -201,8 +197,8 @@ const Step1: React.FC<StepType> = ({ setStep, step }) => {
                 isAdmin={e.isAdmin}
                 id={e.id}
                 setError={setError}
-                setEffectTrigger={setEffectTrigger}
-                effectTrigger={effectTrigger}
+                setTrigger={setTrigger}
+                trigger={trigger}
               />
             ))}
           </div>

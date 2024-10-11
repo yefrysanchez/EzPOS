@@ -1,21 +1,22 @@
-import { useState } from "react";
 import Stepper from "../../components/MultiFormSteps/Stepper";
 import Step1 from "../../components/MultiFormSteps/Step1";
 import Step2 from "../../components/MultiFormSteps/Step2";
 import Step3 from "../../components/MultiFormSteps/Step3";
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
 
 
 const NewUserPage = () => {
-  const [step, setStep] = useState(1);
-
-  const multiFormSteps = (stepNum: number) => {
-    switch (stepNum) {
+  const { step } = useSelector((state: RootState) => state.auth);
+  const localStep:number = Number(localStorage.getItem("step")) || step
+  const multiFormSteps = (step: number) => {
+    switch (step) {
       case 1:
-        return <Step1 step={step} setStep={setStep} />
+        return <Step1 />
       case 2:
-        return <Step2 step={step} setStep={setStep} />
+        return <Step2 />
       case 3:
-          return <Step3 step={step} setStep={setStep} />
+          return <Step3 />
       default:
         return null;
     }
@@ -29,8 +30,8 @@ const NewUserPage = () => {
     to-purple background-animate w-full h-screen flex flex-col justify-center items-center lg:p-2"
     >
       <div className="max-w-xl min-h-[500px] h-full lg:h-fit w-full flex flex-col gap-8 items-center bg-white rounded-xl p-4 overflow-y-scroll hide-scrollbar-webkit  hide-scrollbar-firefox">
-        <Stepper step={step} />
-        {multiFormSteps(step)}
+        <Stepper />
+        {multiFormSteps(localStep)}
       </div>
     </div>
   );

@@ -3,18 +3,18 @@ import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { fade } from "../../animations/animations";
+import { useDispatch } from "react-redux";
+import { backStep, setStep } from "../../store/authSlice";
 
-type Step3Type = {
-  step: number;
-  setStep: (n: number) => void;
-};
 
-const Step3: React.FC<Step3Type> = ({ setStep, step }) => {
+
+const Step3 = () => {
   const [isLoading, setIsloading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const goBack = () => {
-    setStep(step - 1);
+    dispatch(backStep())
   };
 
   const handleNext = () => {
@@ -48,7 +48,7 @@ const Step3: React.FC<Step3Type> = ({ setStep, step }) => {
             </span>{" "}
           </span>
           <button
-            onClick={() => setStep(1)}
+            onClick={() => dispatch(setStep(1))}
             type="button"
             className="text-xs bg-black py-1 px-4 rounded-lg text-white"
           >

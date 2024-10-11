@@ -9,14 +9,14 @@ type EmployeeBadgeType = {
   name: string;
   isAdmin: boolean;
   id: number;
-  setEffectTrigger: (bool:boolean) => void
-  effectTrigger: boolean
+  setTrigger: (bool:boolean) => void
+  trigger: boolean
   setError: (error:string | null) => void
 };
 
 
 
-const EmployeeBadge: React.FC<EmployeeBadgeType> = ({ name, isAdmin, id, setError, setEffectTrigger, effectTrigger }) => {
+const EmployeeBadge: React.FC<EmployeeBadgeType> = ({ name, isAdmin, id, setError, trigger, setTrigger }) => {
   
 
 
@@ -35,12 +35,11 @@ const handleDelete = async (id:number) => {
     if (!res.ok) {
       throw new Error(`Error ${res.status}: Unable to create employees.`);
     }
-    setError("backend need to return a new array")
     dispatch(removeEmployees(id))
   } catch (e) {
     setError((e as Error).message || "An unexpected error occurred.");
   } finally {
-    setEffectTrigger(!effectTrigger);
+    setTrigger(!trigger);
     setIsLoading(false);
   }
   
@@ -55,7 +54,7 @@ const handleDelete = async (id:number) => {
       <span className="capitalize">
         {name}
       </span>
-      <button disabled={isLoading} onClick={() => handleDelete(id)} className="text-red-600 cursor-pointer">
+      <button type="button" disabled={isLoading} onClick={() => handleDelete(id)} className="text-red-600 cursor-pointer">
       <IoClose />
       </button>
     </div>
