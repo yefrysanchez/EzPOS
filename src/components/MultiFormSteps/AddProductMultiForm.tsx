@@ -5,47 +5,57 @@ import ProductListMultiForm from "./ProductListMultiForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
-
 const AddProductMultiForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const url = import.meta.env.VITE_BACKEND;
 
   // Redux ////////////
-  const {category} = useSelector((state:RootState) => state.auth)
+  const { category } = useSelector((state: RootState) => state.auth);
   ////////////////////
 
-  //to send to the DB
+  // to send to the DB
   const [categoryInput, setCategoryInput] = useState("");
   const [productInput, setProductInput] = useState("");
-  const [priceInput, setPriceInput] = useState<number>();
+  const [priceInput, setPriceInput] = useState<number | "">(""); // Initialize as an empty string
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null); // Clear previous errors
+    console.log(categoryInput, productInput, priceInput)
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log({
-        category: categoryInput,
-        product: productInput,
-        price: priceInput,
+      const res = await fetch(`${url}products`, {
+         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          categoryId: Number(categoryInput),
+          name: productInput,
+          price: priceInput,
+        }),
       });
+
+      if (!res.ok) {
+        const errorData = await res.json(); // Assuming the server returns error details
+        throw new Error(errorData.message || `Error status: ${res.status}`);
+      }
+
       setIsAdded(true);
       // Reset input fields
       setCategoryInput("");
       setProductInput("");
-      setPriceInput(0);
+      setPriceInput(""); // Reset to an empty string for better UX
     } catch (err: unknown) {
-      // Type the error as unknown
       if (err instanceof Error) {
-        setError(err.message); // Set the error message if it's an instance of Error
+        setError(err.message);
       } else {
-        setError("An unknown error occurred."); // Handle other types of errors
+        setError("An unknown error occurred.");
       }
     } finally {
-      setIsLoading(false); // Ensure loading state is reset
+      setIsLoading(false);
     }
   };
 
@@ -54,7 +64,7 @@ const AddProductMultiForm = () => {
       {isAdded ? (
         <div className="mt-4 max-w-md">
           <div className="p-4 text-center bg-emerald-400 rounded-xl text-black">
-            <p>Product added successful</p>
+            <p>Product added successfully</p>
           </div>
           <button
             onClick={() => setIsAdded(false)}
@@ -81,7 +91,7 @@ const AddProductMultiForm = () => {
                 Select a category
               </option>
               {category.map((e) => (
-                <option key={e.id} value={e.name}>
+                <option key={e.id} value={e.id}>
                   {e.name}
                 </option>
               ))}
@@ -91,18 +101,22 @@ const AddProductMultiForm = () => {
               placeholder="Product Name"
               className="form-input"
               type="text"
-              name="Product Name"
+              name="productName"
               value={productInput}
               required
             />
             <input
-              onChange={(e) => setPriceInput(Number(e.target.value))}
+              onChange={(e) => {
+                const value = e.target.value;
+                setPriceInput(value === "" ? "" : Number(value)); // Allow empty input
+              }}
               placeholder="Price"
               className="form-input"
               type="number"
               name="price"
               required
               step={0.01}
+              min={0} // Prevent negative prices
             />
 
             <button

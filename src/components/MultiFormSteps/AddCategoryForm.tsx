@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { setCategories } from "../../store/authSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { CategoryType } from "../../types/types";
 import Loading from "../Loading/Loading";
 
 const AddCategoryForm = () => {
@@ -82,10 +81,7 @@ const AddCategoryForm = () => {
         throw new Error(`Response status: ${res.status}`);
       }
       const data = await res.json();
-      const filtered = data.filter(
-        (e: CategoryType) => e.accountId === account?.id
-      );
-      dispatch(setCategories(filtered));
+      dispatch(setCategories(data));
     } catch (error) {
       console.error(error);
     }

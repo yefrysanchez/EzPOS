@@ -1,7 +1,7 @@
 export const fadeUp = {
   initial: {
     opacity: 0,
-    y: 20,
+    y: 10,
   },
   enter: {
     opacity: 1,
@@ -11,7 +11,7 @@ export const fadeUp = {
 
   exit: {
     opacity: 0,
-    y: 20,
+    y: 10,
     transition: { duration: 0.7, ease: [0.25, 1, 0.5, 1] },
   },
 };
