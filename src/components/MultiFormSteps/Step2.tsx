@@ -53,7 +53,7 @@ const Step2 = () => {
     >
       <CategoryProductTabs tab={tab} setTab={setTab} />
       {error && <AlertError error={error} />}
-      <span className="text-sm font-bold my-4 flex items-center gap-1"><span>Please create at least 1 category and 1 product to continue.</span><i ><TiInfoOutline  size={25}/></i> </span>
+      <span className="text-sm font-bold my-4 flex items-center justify-center gap-1"><span>Please create at least 1 category and 1 product to continue.</span><i ><TiInfoOutline  size={25}/></i> </span>
       {tabs(tab)}
       <div className=" flex justify-between mt-auto">
         <button

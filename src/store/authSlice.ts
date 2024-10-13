@@ -38,6 +38,7 @@ const authSlice = createSlice({
       localStorage.removeItem("employees"); // Remove from local storage
       localStorage.removeItem("category"); // Remove from local storage
       localStorage.removeItem("products"); // Remove from local storage
+      localStorage.removeItem("step"); // Remove from local storage
     },
     setEmployees: (state, action) => {
       const employees:EmployeeType[] = action.payload
@@ -56,7 +57,8 @@ const authSlice = createSlice({
       localStorage.setItem("category", JSON.stringify(state.category)); // Save to local storage
     },
     setProducts: (state, action) => {
-      state.products = action.payload
+      const products:ProductType[] = action.payload
+      state.products = products.filter(p => p.accountId === state.account?.id)
       localStorage.setItem("products", JSON.stringify(state.products));
     },
     nextStep: (state) => {

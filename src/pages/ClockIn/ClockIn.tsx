@@ -26,10 +26,8 @@ const ClockIn = () => {
 
   const handleLogout =  () => {
     setIsLoading(true)
-    setTimeout(() => {
-      dispatch(logout())
-    }, 2000);
-    
+    dispatch(logout())
+    setIsLoading(false)
   };
 
   return (

@@ -42,6 +42,7 @@ export type ProductType = {
   id: number,
   name: string,
   price: number,
-  categoryId : number
+  categoryId : number,
+  accountId: number,
   createdAt: Date
 }

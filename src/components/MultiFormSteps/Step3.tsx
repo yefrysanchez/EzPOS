@@ -1,35 +1,127 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { fade } from "../../animations/animations";
 import { useDispatch } from "react-redux";
-import { backStep, setStep } from "../../store/authSlice";
-
-
+import {
+  backStep,
+  login,
+  setCategories,
+  setEmployees,
+  setProducts,
+  setStep,
+} from "../../store/authSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const Step3 = () => {
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const url = import.meta.env.VITE_BACKEND;
+
+  const { employees, category, products, account } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const goBack = () => {
-    dispatch(backStep())
+    dispatch(backStep());
   };
 
-  const handleNext = () => {
-    setIsloading(true);
-    setTimeout(() => {
-      setIsloading(false);
-      navigate("/clockin");
-    }, 5000);
+  const handleFinish = async () => {
+    setIsLoading(true); // Start loading
+    try {
+      const res = await fetch(`${url}auth/updateacc/${account?.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstLogin: false,
+          taxPercentage: 0,
+        }),
+      });
+  
+      if (!res.ok) {
+        throw new Error("An error occurred.");
+      }
+  
+      const data = await res.json();
+  
+      // Simulating loading screen effect
+      setTimeout(() => {
+        dispatch(login(data));
+        navigate("/clockin");
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+      // Optionally set an error state here to notify the user
+    } finally {
+      // Reset loading state after the timeout
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000); // Match this with the above timeout
+    }
   };
+  
+
+  const getEmployees = async () => {
+    try {
+      const res = await fetch(`${url}employees`);
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: Unable to fetch employees.`);
+      }
+      const data = await res.json();
+
+      dispatch(setEmployees(data));
+    } catch (error) {
+      console.error("Failed to fetch employees:", error);
+    }
+  };
+  const getCategory = async () => {
+    try {
+      const res = await fetch(`${url}productcategory`);
+      if (!res.ok) {
+        throw new Error(`Response status: ${res.status}`);
+      }
+      const data = await res.json();
+      dispatch(setCategories(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getProducts = async () => {
+    try {
+      const res = await fetch(`${url}products`);
+      if (!res.ok) {
+        throw new Error(`Error Status: ${res.status}`);
+      }
+      const data = await res.json();
+      dispatch(setProducts(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getEmployees();
+    getCategory();
+    getProducts();
+  }, []);
 
   return (
     <div className="w-full">
       <AnimatePresence>
         {isLoading && (
-          <motion.div variants={fade} initial="initial" animate="enter" exit="exit" className="bg-black flex flex-col justify-center items-center fixed h-screen w-full left-0 top-0 right-0 bottom-0">
+          <motion.div
+            variants={fade}
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            className="bg-black z-[999] flex flex-col justify-center items-center fixed h-screen w-full left-0 top-0 right-0 bottom-0"
+          >
             <h1 className=" mb-1 text-white animate-pulse text-xl">Loading</h1>
             <Loading />
           </motion.div>
@@ -59,16 +151,12 @@ const Step3 = () => {
           <div className="flex gap-2 flex-wrap">
             {employees.map((e) => (
               <div
-                key={e.name}
+                key={e.id}
                 className={`${
-                  e.role === "admin"
-                    ? "bg-darkGray text-white"
-                    : "bg-purple text-black"
+                  e.isAdmin ? "bg-darkGray text-white" : "bg-purple text-black"
                 } text-sm w-fit font-bold h-12 rounded-lg p-4 flex items-center gap-2`}
               >
-                <span className="capitalize">
-                  {e.name} {e.lastName}
-                </span>
+                <span className="capitalize">{e.name}</span>
               </div>
             ))}
           </div>
@@ -79,7 +167,7 @@ const Step3 = () => {
         <div>
           <span className="text-center text-black">Categories </span>
           <button
-            onClick={() => setStep(2)}
+            onClick={goBack}
             type="button"
             className="text-xs bg-black py-1 px-4 rounded-lg text-white"
           >
@@ -88,12 +176,12 @@ const Step3 = () => {
         </div>
         <div className="bg-lightGray/10 h-24 w-full rounded-lg p-2 overflow-y-scroll hide-scrollbar-webkit hide-scrollbar-firefox">
           <div className="flex gap-2 flex-wrap">
-            {categories.map((e) => (
+            {category.map((e) => (
               <div
-                key={e}
+                key={e.id}
                 className={`bg-darkGray text-white text-sm w-fit font-bold h-12 rounded-lg p-4 flex items-center gap-2`}
               >
-                <span className="capitalize">{e}</span>
+                <span className="capitalize">{e.name}</span>
               </div>
             ))}
           </div>
@@ -104,7 +192,7 @@ const Step3 = () => {
         <div>
           <span className="text-center text-black">Products </span>
           <button
-            onClick={() => setStep(2)}
+            onClick={goBack}
             type="button"
             className="text-xs bg-black py-1 px-4 rounded-lg text-white"
           >
@@ -133,8 +221,9 @@ const Step3 = () => {
           Go back
         </button>
         <button
-          onClick={handleNext}
-          className="bg-black placeholder:text-gray w-28 h-16 p-4 rounded-xl font-bold text-white cursor-pointer disabled:opacity-60 disabled:cursor-auto"
+          disabled={isLoading}
+          onClick={handleFinish}
+          className="bg-black  placeholder:text-gray w-28 h-16 p-4 rounded-xl font-bold text-white cursor-pointer disabled:opacity-60 disabled:cursor-auto"
           type="button"
         >
           Finish
@@ -145,53 +234,3 @@ const Step3 = () => {
 };
 
 export default Step3;
-
-const categories = ["Coffee", "Cold Drinks", "Snacks"];
-
-const products = [
-  {
-    id: 7,
-    name: "Matcha Latte",
-    category: "Coffee",
-    price: 4.25,
-  },
-  {
-    id: 8,
-    name: "Iced Coffee",
-    category: "Cold Drinks",
-    price: 3.5,
-  },
-  {
-    id: 9,
-    name: "Fruit Smoothie",
-    category: "Cold Drinks",
-    price: 5.0,
-  },
-];
-
-const employees = [
-  {
-    name: "Yefry",
-    lastName: "Sanchez",
-    pin: "1234",
-    hourRate: 18,
-    userName: "ysan",
-    role: "admin",
-  },
-  {
-    name: "Manuel",
-    lastName: "Pena",
-    pin: "1234",
-    hourRate: 18,
-    userName: "mpen",
-    role: "employee",
-  },
-  {
-    name: "Juan",
-    lastName: "Soto",
-    pin: "1234",
-    hourRate: 18,
-    userName: "jsot",
-    role: "employee",
-  },
-];

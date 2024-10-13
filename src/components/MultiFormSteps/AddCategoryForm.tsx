@@ -133,7 +133,7 @@ const AddCategoryForm = () => {
                 type="button"
                 aria-label={`Remove ${category}`}
               >
-                <IoClose />
+                <IoClose color="red" />
               </button>
             </div>
           ))
