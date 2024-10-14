@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClockInComponent from "../../components/ClockInComponent/ClockInComponent";
 import KeyPad from "../../components/KeyPad/KeyPad";
 import { EmployeeType } from "../../types/types";
@@ -9,26 +9,48 @@ import Loading from "../../components/Loading/Loading";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useDispatch } from "react-redux";
-import { logout } from "../../store/authSlice";
+import { logout, setEmployees } from "../../store/authSlice";
 
 const ClockIn = () => {
   const [isSelected, setIsSelected] = useState(false);
   const [user, setUser] = useState<EmployeeType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   // Redux ///////////////
-  const {employees} = useSelector((state: RootState) => state.auth)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { employees } = useSelector((state: RootState) => state.auth);
+
+  const url = import.meta.env.VITE_BACKEND;
 
   const handleUser = (eUser: EmployeeType) => {
     setIsSelected(true);
     setUser(eUser);
   };
 
-  const handleLogout =  () => {
-    setIsLoading(true)
-    dispatch(logout())
-    setIsLoading(false)
+  const handleLogout = () => {
+    setIsLoading(true);
+    dispatch(logout());
+    setIsLoading(false);
   };
+
+  const getEmployees = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${url}employees`);
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: Unable to fetch employees.`);
+      }
+      const data = await res.json();
+      dispatch(setEmployees(data));
+    } catch (error) {
+      console.error("Failed to fetch employees:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getEmployees();
+  }, []);
 
   return (
     <div className="flex h-screen w-full">
@@ -43,11 +65,19 @@ const ClockIn = () => {
             Welcome Back!
           </h1>
           <div className="flex flex-col overflow-y-scroll h-5/6 hide-scrollbar-webkit hide-scrollbar-firefox">
-            {employees.map((e) => (
-              <button disabled={isLoading} key={e.name} onClick={() => handleUser(e)}>
-                <ClockInComponent user={e} />
-              </button>
-            ))}
+            <>
+              {isLoading ? (
+                <>
+                  <Loading />
+                </>
+              ) : (
+                employees.map((e: EmployeeType) => (
+                  <button key={e.name} onClick={() => handleUser(e)}>
+                    <ClockInComponent user={e} />
+                  </button>
+                ))
+              )}
+            </>
           </div>
         </motion.div>
         <button

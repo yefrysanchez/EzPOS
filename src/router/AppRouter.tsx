@@ -10,31 +10,46 @@ import LoginRegisterPage from "../pages/LoginRegisterPage/LoginRegisterPage";
 import NewUserPage from "../pages/NewUserPage/NewUserPage";
 import AuthProtected from "../components/ProtectedRoutes/AuthProtected";
 
-
 export const router = createBrowserRouter([
   {
     index: true,
-    element: <AuthProtected><LoginRegisterPage /></AuthProtected>,
+    element: <LoginRegisterPage />,
     errorElement: <NotFoundPage />,
   },
   {
     path: "/newuser",
-    element: <AuthProtected><NewUserPage /></AuthProtected>,
+    element: (
+      <AuthProtected>
+        <NewUserPage />
+      </AuthProtected>
+    ),
     errorElement: <NotFoundPage />,
   },
   {
     path: "/clockin",
-    element: <AuthProtected><ClockIn /></AuthProtected>,
+    element: (
+      <AuthProtected>
+        <ClockIn />
+      </AuthProtected>
+    ),
     errorElement: <NotFoundPage />,
   },
   {
     path: "/menu",
-    element: <AuthProtected><MenuLayout /></AuthProtected>,
+    element: (
+      <AuthProtected>
+        <MenuLayout />
+      </AuthProtected>
+    ),
     errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
-        element: <AuthProtected><MenuPage /></AuthProtected>,
+        element: (
+          <AuthProtected>
+            <MenuPage />
+          </AuthProtected>
+        ),
       },
     ],
   },
@@ -44,11 +59,19 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <AuthProtected><DashboardPage /></AuthProtected>,
+        element: (
+          <AuthProtected>
+            <DashboardPage />
+          </AuthProtected>
+        ),
       },
       {
         path: "/settings",
-        element: <AuthProtected><SettingPage /></AuthProtected>,
+        element: (
+          <AuthProtected>
+            <SettingPage />
+          </AuthProtected>
+        ),
       },
     ],
   },

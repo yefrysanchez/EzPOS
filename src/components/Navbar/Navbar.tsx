@@ -1,17 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
-import { Link, NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { clockin, clockout } from "../../store/authSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const Navbar = () => {
   const links = ["menu", "dashboard", "settings"];
 
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  function capitalize(string:string): string {
+  function capitalize(string: string): string {
     if (string.length === 0) return string; // Handle empty string
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
+  }
+
+  const dispatch = useDispatch();
+  const { clockedEmployee } = useSelector((state: RootState) => state.auth);
+  // Check local storage for account data on component mount
+  useEffect(() => {
+    const storedClockedEmployee = localStorage.getItem("clocked");
+    if (storedClockedEmployee) {
+      const clockedEmployeeData = JSON.parse(storedClockedEmployee);
+      dispatch(clockin(clockedEmployeeData));
+    }
+  }, [dispatch]);
 
   return (
     <nav className={`relative  h-16 /  lg:h-screen w-full lg:max-w-[230px]`}>
@@ -39,7 +55,11 @@ const Navbar = () => {
               className={({ isActive }) =>
                 `${
                   isActive ? "bg-darkGray text-white" : ""
-                } hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg w-4/5 lg:w-full`
+                } hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg w-4/5 lg:w-full ${
+                  !clockedEmployee?.isAdmin &&
+                  (link === "dashboard" || link === "settings") &&
+                  "hidden"
+                }`
               }
               key={link}
             >
@@ -47,8 +67,14 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          <li className=" hover:text-red-500 w-fit duration-200 p-2 rounded-lg ">
-            <Link to={"/clockin"}>Clock Out</Link>
+          <li
+            onClick={() => {
+              dispatch(clockout());
+              navigate("/");
+            }}
+            className="text-red-500 border select-none cursor-pointer active:bg-red-500 active:text-black duration-200 p-2 rounded-lg "
+          >
+            Clock Out
           </li>
         </ul>
       </div>
