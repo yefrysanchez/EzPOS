@@ -12,6 +12,7 @@ const LoginRegisterPage = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    useEffect(() => {
+    // for protected route purpose
     const storedAccount = localStorage.getItem("account");
       if (storedAccount) {
         const accountData: AccountType = JSON.parse(storedAccount);

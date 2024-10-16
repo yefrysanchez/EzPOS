@@ -56,7 +56,7 @@ const authSlice = createSlice({
       state.employees = employees.filter(
         (e) => e.accountId === state.account?.id
       );
-      localStorage.setItem("employees", JSON.stringify(action.payload)); // Save to local storage
+      localStorage.setItem("employees", JSON.stringify(state.employees)); // Save to local storage
     },
     removeEmployees: (state, action) => {
       const id = action.payload;
