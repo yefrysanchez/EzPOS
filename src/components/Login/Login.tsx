@@ -7,6 +7,7 @@ import AlertError from "../Alerts/AlertError";
 import Loading from "../Loading/Loading";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 type FuncProp = {
   setIsRegistered: (isRegistered: boolean) => void;
@@ -18,6 +19,7 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
   // Redux ///////////////////
 
   const dispatch = useDispatch();
@@ -56,8 +58,11 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
       setIsLoading(false);
     } finally {
       setIsLoading(false); // Ensure loading state is reset
+      navigate("/clockin")
     }
   };
+
+ 
 
   return (
     <motion.section

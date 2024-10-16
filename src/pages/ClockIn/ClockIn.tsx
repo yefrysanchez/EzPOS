@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useDispatch } from "react-redux";
 import { logout, setEmployees } from "../../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const ClockIn = () => {
   const [isSelected, setIsSelected] = useState(false);
@@ -17,6 +18,7 @@ const ClockIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   // Redux ///////////////
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { employees } = useSelector((state: RootState) => state.auth);
 
   const url = import.meta.env.VITE_BACKEND;
@@ -30,6 +32,7 @@ const ClockIn = () => {
     setIsLoading(true);
     dispatch(logout());
     setIsLoading(false);
+    navigate("/");
   };
 
   const getEmployees = async () => {
@@ -49,8 +52,11 @@ const ClockIn = () => {
   };
 
   useEffect(() => {
+    localStorage.removeItem("clocked") // for protected route purpose
     getEmployees();
   }, []);
+
+  
 
   return (
     <div className="flex h-screen w-full">

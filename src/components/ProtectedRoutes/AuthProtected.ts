@@ -21,20 +21,14 @@ export default function AuthProtected({ children }: PropsWithChildren) {
     }, [dispatch]);
 
   useEffect(() => {
-    if (account !== null) {
+    if (account) {
       if (account.firstLogin) {
         navigate("/newUser", { replace: true });
         return;
       }
-      navigate("/clockin", { replace: true });
-      return;
     }
     if (account === null) {
       navigate("/", { replace: true });
-      return;
-    }
-    if (clockedEmployee === null) {
-      navigate("/clockin", { replace: true });
       return;
     }
   }, [account, navigate, clockedEmployee]);

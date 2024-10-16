@@ -70,7 +70,7 @@ const Navbar = () => {
           <li
             onClick={() => {
               dispatch(clockout());
-              navigate("/");
+              navigate("/clockin");
             }}
             className="text-red-500 border select-none cursor-pointer active:bg-red-500 active:text-black duration-200 p-2 rounded-lg "
           >

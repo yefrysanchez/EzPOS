@@ -1,7 +1,30 @@
+import { useNavigate } from "react-router-dom";
 import MostSold from "../../components/Dashboards/MostSold";
 import OrdersChart from "../../components/Dashboards/OrdersChart";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { EmployeeType } from "../../types/types";
+import { clockin } from "../../store/authSlice";
 
 const DashboardPage = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // for protected route purpose
+    const storedClockedEmployee = localStorage.getItem("clocked");
+    if (storedClockedEmployee) {
+      const clockedEmployeeData: EmployeeType = JSON.parse(
+        storedClockedEmployee
+      );
+      dispatch(clockin(clockedEmployeeData));
+    } else {
+      navigate("/clockin");
+    }
+  }, [dispatch, navigate]);
+
+
   return (
     <section className="lg:h-screen w-full bg-black text-white p-2  overflow-y-scroll lg:overflow-y-auto lg:flex flex-col">
       <div className="">

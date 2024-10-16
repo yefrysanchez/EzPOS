@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import { EmployeeType } from "../../types/types";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clockin } from "../../store/authSlice";
 
 type KeyPadType = {
   setIsSelected: (s: boolean) => void;
@@ -10,6 +12,7 @@ type KeyPadType = {
 
 const KeyPad: React.FC<KeyPadType> = ({ setIsSelected, user }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const keys: (string | null)[] = [
     "1", "2", "3",
@@ -33,9 +36,10 @@ const KeyPad: React.FC<KeyPadType> = ({ setIsSelected, user }) => {
   useEffect(() => {
     const strPIN = PIN.join("");
     if (strPIN === user?.pin) {
+      dispatch(clockin(user))
       navigate("/menu");
     }
-  }, [PIN, user, navigate]); // Added user and navigate to dependency array
+  }, [PIN, user, navigate, dispatch]); // Added user and navigate to dependency array
 
   return (
     <div className="bg-darkGray relative h-full flex flex-col justify-center items-center gap-4">
