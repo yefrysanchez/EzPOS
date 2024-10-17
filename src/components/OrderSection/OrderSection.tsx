@@ -44,7 +44,8 @@ const OrderSection = () => {
           <div className="my-1 overflow-y-scroll grid gap-3 hide-scrollbar-webkit hide-scrollbar-firefox / lg:flex-initial lg:gap-2">
             {cart.map((p, i: number) => (
               <CartProduct
-                key={i}
+                key={p.id}
+                id={p.id}
                 indexList={i + 1}
                 product={p.name}
                 price={p.price}

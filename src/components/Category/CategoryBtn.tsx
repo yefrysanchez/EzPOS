@@ -1,38 +1,37 @@
-import { products } from "../../dummyData/products";
+import { useSelector } from "react-redux";
+import { CategoryType } from "../../types/types";
+import { RootState } from "../../store/store";
 
 type CategoryBtnType = {
-  BgColor: string;
-  category: string;
-  icon: React.ComponentType; // Use React.ComponentType to type the icon prop
-  activeTab: string;
+
+  category: CategoryType;
+  activeTab: number | null;
 };
 
 const CategoryBtn: React.FC<CategoryBtnType> = ({
-  BgColor,
+
   category,
-  icon: Icon,
   activeTab,
 }) => {
 
+  const {products} = useSelector((state:RootState) => state.auth)
   
-  const items = products.filter((item) => item.category === category);
+  const items = products.filter((item) => item.categoryId === category.id);
 
   return (
     <button
       className={`${
-        activeTab === category
-          ? BgColor + " text-black"
+        activeTab === category.id
+          ? "bg-purple text-black"
           : "bg-darkGray text-white"
-      } flex-shrink-0 active:scale-95 duration-200  p-4 h-[130px] flex flex-col justify-between w-[150px] max-w-[150px] rounded-xl`}
+      } flex-shrink-0 active:scale-95 duration-200  p-4 h-[130px] flex flex-col justify-end w-[150px] max-w-[150px] rounded-xl`}
     >
-      <div className="text-3xl">
-        <Icon />
-      </div>
+      
       <div className="flex flex-col text-start">
-        <span className="font-bold text-xl">{category}</span>
+        <span className="font-bold text-xl capitalize">{category.name}</span>
         <span
           className={`text-xs ${
-            activeTab === category ? "text-gray" : "text-lightGray"
+            activeTab === category.id ? "text-gray" : "text-lightGray"
           } `}
         >
           {items.length} Items

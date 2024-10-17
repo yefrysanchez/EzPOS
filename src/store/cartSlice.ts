@@ -35,6 +35,11 @@ const cartSlice = createSlice({
         item.qty = item.qty - 1;
       }
     },
+    deleteItem: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      const items:cartItemType[] = state.cart.filter((item) => item.id !== id);
+      state.cart = items
+    },
     changeTax: (state, action: PayloadAction<number>) => {
       const tax = action.payload
       state.taxPorcentage = tax
@@ -42,5 +47,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, addQty, subQty, changeTax } = cartSlice.actions;
+export const { addToCart, addQty, subQty, changeTax, deleteItem } = cartSlice.actions;
 export default cartSlice.reducer;

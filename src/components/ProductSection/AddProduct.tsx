@@ -8,7 +8,7 @@ type AddProductType = {
   id: number;
   name: string;
   price: number;
-  category: string;
+  category: string | undefined;
 };
 
 const AddProduct: React.FC<AddProductType> = ({
@@ -58,7 +58,7 @@ const AddProduct: React.FC<AddProductType> = ({
         <span>{category}</span>
       </div>
       <div className="flex flex-col text-start ">
-        <span className="font-bold text-base overflow-hidden text-nowrap whitespace-nowrap text-ellipsis">
+        <span className="font-bold capitalize text-base overflow-hidden text-nowrap whitespace-nowrap text-ellipsis">
           {name}
         </span>
         <span
