@@ -6,7 +6,7 @@ import { CategoryType } from "../../types/types";
 
 
 type ProductSectionType = {
-  activeTab: number | null
+  activeTab: number
 }
 
 const ProductSection: React.FC<ProductSectionType> = ({activeTab}) => {
@@ -30,7 +30,7 @@ const ProductSection: React.FC<ProductSectionType> = ({activeTab}) => {
           price={Number(p.price)}
           id={p.id}
           name={p.name}
-          category={findCategory?.name}
+          category={findCategory ? findCategory.name : "Unavailable"}
         />
       ))}
     </section>

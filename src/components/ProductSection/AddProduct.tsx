@@ -8,7 +8,7 @@ type AddProductType = {
   id: number;
   name: string;
   price: number;
-  category: string | undefined;
+  category: string;
 };
 
 const AddProduct: React.FC<AddProductType> = ({

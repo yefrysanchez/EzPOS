@@ -8,7 +8,7 @@ import { EmployeeType } from "../../types/types";
 import { getCategory, getProducts } from "../../utils/apiFunctions";
 
 const MenuPage = () => {
-  const [activeTab, setActiveTab] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<number>(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

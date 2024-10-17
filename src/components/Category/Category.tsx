@@ -5,8 +5,8 @@ import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 
 type CategoryType = {
-  setActiveTab: (tab: number | null) => void;
-  activeTab: number | null;
+  setActiveTab: (tab: number) => void;
+  activeTab: number;
 };
 
 const Category: React.FC<CategoryType> = ({ setActiveTab, activeTab }) => {
