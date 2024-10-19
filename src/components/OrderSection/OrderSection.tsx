@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { FaArrowRight, FaCartShopping } from "react-icons/fa6";
 import CartProduct from "./CartProduct";
-import { PiCoffeeThin } from "react-icons/pi";
 import PaymentSect from "./PaymentSect";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { BsCartX } from "react-icons/bs";
 
 
 const OrderSection = () => {
@@ -22,7 +22,7 @@ const OrderSection = () => {
         <FaCartShopping />
       </button>
 
-      {cart.length !== 0 ? (
+      {cart.length > 0 ? (
         <div
           className={`${
             isOpen ? "absolute inset-0" : "hidden lg:flex"
@@ -72,7 +72,7 @@ const OrderSection = () => {
             </button>
           </div>
           <div className="h-full flex flex-col justify-center items-center text-7xl">
-            <PiCoffeeThin />
+            <BsCartX />
             <span className="text-base text-lightGray tracking-tighter">
               Cart is Empty
             </span>

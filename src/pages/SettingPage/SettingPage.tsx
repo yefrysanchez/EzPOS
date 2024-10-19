@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import SettingsBtn from "../../components/SettingsComponents/SettingsBtn";
-import { IoIosAddCircleOutline } from "react-icons/io";
 import { FaUserGroup } from "react-icons/fa6";
 import { PiSealPercentFill } from "react-icons/pi";
 import AddProductBtn from "../../components/SettingsComponents/AddProductBtn";
@@ -10,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { EmployeeType } from "../../types/types";
 import { clockin } from "../../store/authSlice";
+import { TbCategoryPlus } from "react-icons/tb";
+import { AiOutlineProduct } from "react-icons/ai";
+import AddCategoriesBtn from "../../components/SettingsComponents/AddCategoriesBtn";
 
 const SettingPage = () => {
   const [activeTab, setActiveTab] = useState<string>("");
@@ -18,7 +20,9 @@ const SettingPage = () => {
 
   const tabs = () => {
     switch (activeTab) {
-      case "Add Product":
+      case "Categories":
+        return <AddCategoriesBtn />;
+      case "Products":
         return <AddProductBtn />;
       case "Tax":
         return <ChangeTaxForm />;
@@ -53,8 +57,14 @@ const SettingPage = () => {
         <SettingsBtn
           setActiveTab={setActiveTab}
           activeTab={activeTab}
-          settingTab="Add Product"
-          icon={IoIosAddCircleOutline}
+          settingTab="Categories"
+          icon={TbCategoryPlus}
+        />
+        <SettingsBtn
+          setActiveTab={setActiveTab}
+          activeTab={activeTab}
+          settingTab="Products"
+          icon={AiOutlineProduct}
         />
         <SettingsBtn
           setActiveTab={setActiveTab}

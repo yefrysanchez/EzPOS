@@ -15,8 +15,7 @@ const AddCategoryForm = () => {
 
   // Redux /////////////////
   const dispatch = useDispatch();
-  const { account } = useSelector((state: RootState) => state.auth);
-  const { category } = useSelector((state: RootState) => state.auth);
+  const { account, category } = useSelector((state: RootState) => state.auth);
   /////////////////////////
 
   const handleCategory = async () => {
