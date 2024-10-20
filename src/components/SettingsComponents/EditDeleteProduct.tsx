@@ -1,32 +1,65 @@
 import { FaRegEdit } from "react-icons/fa";
-import { products } from "../../dummyData/products";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DeleteProductModal from "./DeleteProductModal";
 import { AnimatePresence } from "framer-motion";
 import EditProductModal from "./EditProductModal";
 import { FaTrashCan } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { getProducts } from "../../utils/apiFunctions";
+import { useDispatch } from "react-redux";
 
-const EditDeleteProduct = () => {
-  const [allProducts, setAllProducts] = useState(products);
+type EditDeleteType = {
+  trigger: boolean;
+  setTrigger: (bool: boolean) => void;
+};
+
+const EditDeleteProduct: React.FC<EditDeleteType> = ({
+  trigger,
+  setTrigger,
+}) => {
   const [modal, setModal] = useState({ edit: false, delete: false });
-  const [prodId, setProdId] = useState<number>(0)
+  const [prodId, setProdId] = useState<number>();
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { products, category } = useSelector((state: RootState) => state.auth);
+  const [allProds, setAllProds] = useState(products);
+
+  function findCategory(id: number) {
+    const findCategory = category.find((c) => c.id === id);
+    if (findCategory) {
+      return findCategory.name;
+    } else {
+      return "No Category";
+    }
+  }
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const filteredProducts = products.filter((p) =>
       p.name.toLowerCase().includes(e.target.value)
     );
-    setAllProducts(filteredProducts);
+    setAllProds(filteredProducts);
   };
 
-  const handleDelete = (id:number) => {
-    setModal({ edit: false, delete: true })
-    setProdId(id)
-  }
+  const handleDelete = (id: number) => {
+    setModal({ edit: false, delete: true });
+    setProdId(id);
+  };
 
   const handleEdit = (id: number) => {
-    setModal({ edit: true, delete: false })
-    setProdId(id)
-  }
+    setModal({ edit: true, delete: false });
+    setProdId(id);
+  };
+
+  useEffect(() => {
+    getProducts(dispatch);
+
+    setAllProds(products);
+  }, [dispatch, trigger]);
+
+  useEffect(() => {
+    setAllProds(products);
+  }, [products]);
 
   return (
     <div className="max-w-md">
@@ -40,12 +73,14 @@ const EditDeleteProduct = () => {
         />
       </div>
       <div className="max-h-[37vh] flex flex-col gap-2 overflow-y-scroll hide-scrollbar-firefox hide-scrollbar-webkit">
-        {allProducts.map((p) => (
+        {allProds.map((p) => (
           <div key={p.id} className="flex items-center border rounded-xl p-4">
             <div className="flex flex-col ">
-              <span className="font-bold text-white text-xl">{p.name}</span>
-              <span className="text-sm ">${p.price.toFixed(2)}</span>
-              <span>{p.category}</span>
+              <span className="font-bold text-white text-xl capitalize">
+                {p.name}
+              </span>
+              <span className="text-sm">${p.price.toFixed(2)}</span>
+              <span className="capitalize">{findCategory(p.categoryId)}</span>
             </div>
             <div className="ml-auto flex gap-4 text-xl">
               <button
@@ -64,8 +99,22 @@ const EditDeleteProduct = () => {
           </div>
         ))}
         <AnimatePresence>
-          {modal.delete && <DeleteProductModal setModal={setModal} id={prodId} />}
-          {modal.edit && <EditProductModal setModal={setModal} id={prodId} />}
+          {modal.delete && (
+            <DeleteProductModal
+              setTrigger={setTrigger}
+              trigger={trigger}
+              setModal={setModal}
+              id={prodId}
+            />
+          )}
+          {modal.edit && (
+            <EditProductModal
+              setTrigger={setTrigger}
+              trigger={trigger}
+              setModal={setModal}
+              id={prodId}
+            />
+          )}
         </AnimatePresence>
       </div>
     </div>

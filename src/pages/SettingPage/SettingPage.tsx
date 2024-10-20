@@ -12,6 +12,7 @@ import { clockin } from "../../store/authSlice";
 import { TbCategoryPlus } from "react-icons/tb";
 import { AiOutlineProduct } from "react-icons/ai";
 import AddCategoriesBtn from "../../components/SettingsComponents/AddCategoriesBtn";
+import { getCategory, getProducts } from "../../utils/apiFunctions";
 
 const SettingPage = () => {
   const [activeTab, setActiveTab] = useState<string>("");
@@ -45,6 +46,12 @@ const SettingPage = () => {
       navigate("/clockin");
     }
   }, [dispatch, navigate]);
+
+  useEffect(() => {
+    getCategory(dispatch);
+    getProducts(dispatch)
+  }, [dispatch]);
+
 
   return (
     <section className="h-screen w-full bg-black flex flex-col p-2">

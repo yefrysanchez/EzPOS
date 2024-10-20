@@ -34,7 +34,7 @@ export async function getProducts(dispatch: AppDispatch): Promise<null | string>
             throw new Error(`Error ${res.status}: ${errorData.message || res.statusText}`);
         }
         const data: CategoryType[] = await res.json();
-        dispatch(setProducts(data));
+        dispatch(setProducts(data.sort((a,b) => a.name.localeCompare(b.name))));
         return null;
     } catch (error: unknown) {
         if (error instanceof Error) {
