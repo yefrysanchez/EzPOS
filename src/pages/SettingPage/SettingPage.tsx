@@ -25,10 +25,10 @@ const SettingPage = () => {
         return <AddCategoriesBtn />;
       case "Products":
         return <AddProductBtn />;
-      case "Tax":
-        return <ChangeTaxForm />;
       case "Employee":
         return <EmployeeSection />;
+      case "Tax":
+        return <ChangeTaxForm />;
       default:
         return "";
     }
@@ -49,9 +49,8 @@ const SettingPage = () => {
 
   useEffect(() => {
     getCategory(dispatch);
-    getProducts(dispatch)
+    getProducts(dispatch);
   }, [dispatch]);
-
 
   return (
     <section className="h-screen w-full bg-black flex flex-col p-2">
