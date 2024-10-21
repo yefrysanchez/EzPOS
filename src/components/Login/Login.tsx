@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { CiUser } from "react-icons/ci";
-import { CiLock } from "react-icons/ci";
+import { CiUser, CiLock } from "react-icons/ci";
 import { fadeUp } from "../../animations/animations";
 import { FormEvent, useState } from "react";
 import AlertError from "../Alerts/AlertError";
@@ -17,52 +16,46 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
   const backend = import.meta.env.VITE_BACKEND;
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate()
-  // Redux ///////////////////
-
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     try {
       // Basic validation
       if (!email || !password) {
         throw new Error("Please fill in all fields.");
       }
+
       const res = await fetch(`${backend}auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!res.ok) {
-        setIsLoading(false);
-        throw new Error("Creck Credencials.");
+        const errorData = await res.json();
+        setError(errorData.msg)
+        return
       }
 
       const data = await res.json();
-
       dispatch(login(data));
 
-      setError(null);
+      navigate("/clockin"); // Ensure navigation is after a successful login
     } catch (e) {
-      setError((e as Error).message || "An unexpected error occurred.");
-      setIsLoading(false);
+      const errorMessage = e instanceof Error ? e.message : "An unexpected error occurred.";
+      setError(errorMessage);
     } finally {
       setIsLoading(false); // Ensure loading state is reset
-      navigate("/clockin")
     }
   };
-
- 
 
   return (
     <motion.section
@@ -110,7 +103,7 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
         </p>
         <button
           disabled={isLoading}
-          className="bg-black placeholder:text-gray  text-xl w-full h-16 p-4 rounded-xl font-bold text-white cursor-pointer"
+          className="bg-black placeholder:text-gray text-xl w-full h-16 p-4 rounded-xl font-bold text-white cursor-pointer"
           type="submit"
         >
           {isLoading ? <Loading /> : "Login"}

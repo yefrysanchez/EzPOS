@@ -52,11 +52,9 @@ const ClockIn = () => {
   };
 
   useEffect(() => {
-    localStorage.removeItem("clocked") // for protected route purpose
+    localStorage.removeItem("clocked"); // for protected route purpose
     getEmployees();
   }, []);
-
-  
 
   return (
     <div className="flex h-screen w-full">
@@ -89,21 +87,13 @@ const ClockIn = () => {
         <button
           disabled={isLoading}
           onClick={handleLogout}
-          className={`flex flex-shrink-0 items-center justify-center gap-2 border ${
-            isLoading && "text-white bg-red-600"
-          } border-red-600 text-red-600 transition active:text-white active:bg-red-700 h-12 w-full max-w-[300px] rounded-lg`}
+          className={`flex flex-shrink-0 items-center justify-center gap-2 border border-red-600 text-red-600 transition active:text-white active:bg-red-700 h-12 w-full max-w-[300px] rounded-lg`}
           type="button"
         >
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <>
-              <span>Logout</span>
-              <span className="text-2xl">
-                <RiLogoutBoxLine />
-              </span>
-            </>
-          )}
+          <span>Logout</span>
+          <span className="text-2xl">
+            <RiLogoutBoxLine />
+          </span>
         </button>
       </div>
       {isSelected && (

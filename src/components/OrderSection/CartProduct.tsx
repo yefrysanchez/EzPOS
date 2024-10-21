@@ -32,7 +32,7 @@ const CartProduct: React.FC<CardProductType> = ({
           {indexList}
         </span>
         <span className="text-xl capitalize overflow-hidden text-nowrap whitespace-nowrap text-ellipsis max-w-[170px] / lg:text-sm lg:max-w-[140px]">
-          {product}dddddddddddddddddddddddddddddd
+          {product}
         </span>
         <span className="text-lightGray text-xl lg:text-sm">x{quantity}</span>
       </div>

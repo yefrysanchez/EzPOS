@@ -41,7 +41,9 @@ const Register: React.FC<FuncProp> = ({ setIsRegistered }) => {
 
       if (!res.ok) {
         setIsLoading(false);
-        throw new Error("Please complete all fields.");
+        const errorData = await res.json()
+        setError(errorData.msg)
+        return
       }
       const data = await res.json();
       dispatch(login(data));

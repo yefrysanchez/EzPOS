@@ -3,7 +3,7 @@ import { cartItemType, cartType } from "../types/types";
 
 const initialState: cartType = {
   cart: [],
-  taxPorcentage: 12,
+  taxPorcentage: 0,
 };
 
 const cartSlice = createSlice({
