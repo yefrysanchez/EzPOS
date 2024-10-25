@@ -43,9 +43,12 @@ const cartSlice = createSlice({
     changeTax: (state, action: PayloadAction<number>) => {
       const tax = action.payload
       state.taxPorcentage = tax
+    },
+    resetCart: (state) => {
+      state.cart = []
     }
   },
 });
 
-export const { addToCart, addQty, subQty, changeTax, deleteItem } = cartSlice.actions;
+export const { addToCart, addQty, subQty, changeTax, deleteItem, resetCart } = cartSlice.actions;
 export default cartSlice.reducer;
