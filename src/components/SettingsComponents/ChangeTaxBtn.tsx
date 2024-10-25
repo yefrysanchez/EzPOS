@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { useDispatch } from "react-redux";
-import { changeTax } from "../../store/cartSlice";
+
 import { FormEvent, useState } from "react";
 import AlertError from "../Alerts/AlertError";
 import { AnimatePresence } from "framer-motion";
@@ -9,9 +8,8 @@ import Loading from "../Loading/Loading";
 
 const ChangeTaxForm = () => {
   const { account } = useSelector((state: RootState) => state.auth);
-  const { taxPorcentage } = useSelector((state: RootState) => state.cart);
-  const dispatch = useDispatch();
-  const [tax, setTax] = useState(0);
+
+  const [tax, setTax] = useState(account?.taxPercentage);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setisLoading] = useState(false);
 
@@ -20,10 +18,11 @@ const ChangeTaxForm = () => {
   const handleTax = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    if (tax < 0) {
-      return setError("Tax can NOT be less than 0");
+    if(tax !== undefined){
+      if (tax < 0) {
+        return setError("Tax can NOT be less than 0");
+      }
     }
-
     try {
       const res = await fetch(`${url}auth/updateacc/${account?.id}`, {
         method: "PATCH",
@@ -43,7 +42,6 @@ const ChangeTaxForm = () => {
       console.error(error);
       setError(`${error}`);
     } finally {
-      dispatch(changeTax(tax));
       setisLoading(false);
     }
   };
@@ -56,7 +54,7 @@ const ChangeTaxForm = () => {
           <span>Tax</span>
           <span>
             <span className="text-lg">%</span>
-            {taxPorcentage}
+            {account?.taxPercentage}
           </span>
         </div>
         <form
