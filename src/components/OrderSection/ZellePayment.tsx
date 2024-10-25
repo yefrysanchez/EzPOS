@@ -10,7 +10,7 @@ const ZellePayment: React.FC<ZellePaymentType> = ({setShowPaymentMethod}) => {
   const dispatch = useDispatch()
 
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center">
+    <div className="fixed select-none px-2 inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center">
       <div className="max-w-md p-4 flex flex-col items-center w-full bg-white rounded-lg">
         <div className="text-darkGray text-lg">
           <p>
@@ -32,9 +32,9 @@ const ZellePayment: React.FC<ZellePaymentType> = ({setShowPaymentMethod}) => {
             alt="zelle logo"
           />
         </div>
-        <div className="mt-4 flex flex-col gap-4">
+        <div className="mt-4 flex gap-4">
+          <button onClick={() => setShowPaymentMethod(false)} className="bg-darkGray py-2 px-4 rounded-full text-lg">Cancel </button>
           <button onClick={() => dispatch(resetCart())} className="bg-violet-700 py-2 px-4 rounded-full text-lg">Confirm Payment</button>
-          <button onClick={() => setShowPaymentMethod(false)} className="bg-red-700 py-2 px-4 rounded-full text-lg">Cancel </button>
         </div>
       </div>
     </div>
