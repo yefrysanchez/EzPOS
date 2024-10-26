@@ -7,7 +7,7 @@ const Stepper = () => {
   
 
   return (
-    <ol className="sticky shadow-sm left-0 top-0 bg-white p-2 rounded-lg flex justify-center items-center max-w-xl w-full text-sm text-gray-500 font-medium sm:text-base">
+    <ol className="sticky p-4 shadow-sm left-0 top-0 bg-white rounded-lg flex justify-center items-center max-w-xl w-full text-sm text-gray-500 font-medium sm:text-base">
       <li
         className={`${
           localStep >= 1 && "text-black"

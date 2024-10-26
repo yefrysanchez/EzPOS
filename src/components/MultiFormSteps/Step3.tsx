@@ -112,7 +112,7 @@ const Step3 = () => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full px-4 pb-4">
       <AnimatePresence>
         {isLoading && (
           <motion.div

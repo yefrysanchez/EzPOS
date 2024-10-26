@@ -49,7 +49,7 @@ const Step2 = () => {
       initial="initial"
       animate="enter"
       exit="exit"
-      className="flex flex-col text-center text-black mb-4 rounded-lg max-w-md w-full h-full"
+      className="flex flex-col text-center text-black mb-4 rounded-lg max-w-md w-full h-full px-4"
     >
       <CategoryProductTabs tab={tab} setTab={setTab} />
       {error && <AlertError error={error} />}
