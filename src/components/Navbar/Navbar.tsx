@@ -13,11 +13,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  function capitalize(string: string): string {
-    if (string.length === 0) return string; // Handle empty string
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   const dispatch = useDispatch();
   const { clockedEmployee } = useSelector((state: RootState) => state.auth);
   // Check local storage for account data on component mount
@@ -55,7 +50,7 @@ const Navbar = () => {
               className={({ isActive }) =>
                 `${
                   isActive ? "bg-darkGray text-white" : ""
-                } hover:bg-darkGray hover:text-white duration-200 p-2 rounded-lg w-4/5 lg:w-full ${
+                } hover:bg-darkGray hover:text-white capitalize duration-200 p-2 rounded-lg w-4/5 lg:w-full ${
                   !clockedEmployee?.isAdmin &&
                   (link === "dashboard" || link === "settings") &&
                   "hidden"
@@ -63,7 +58,7 @@ const Navbar = () => {
               }
               key={link}
             >
-              <li>{capitalize(link)}</li>
+              <li>{link}</li>
             </NavLink>
           ))}
 

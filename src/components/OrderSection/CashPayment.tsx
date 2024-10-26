@@ -29,11 +29,11 @@ const CashPayment: React.FC<CashPaymentType> = ({
         <div className="flex gap-4 mt-auto">
           <button
             onClick={() => setShowPaymentMethod(false)}
-            className="bg-darkGray py-2 px-8 rounded-full text-lg "
+            className="bg-darkGray py-2 px-8 rounded-lg text-lg "
           >
             Cancel{" "}
           </button>
-          <button onClick={() => dispatch(resetCart())} className="bg-emerald-700 py-2 px-4 rounded-full text-lg">Confirm Payment</button>
+          <button onClick={() => dispatch(resetCart())} className="bg-emerald-700 py-2 px-4 rounded-lg text-lg">Confirm Payment</button>
         </div>
       </div>
     </div>

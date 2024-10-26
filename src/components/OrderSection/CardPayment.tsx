@@ -35,7 +35,7 @@ const CardPayment: React.FC<CardPaymentType> = ({
         <div className="flex gap-4 mt-auto">
           <button
             onClick={() => setShowPaymentMethod(false)}
-            className="bg-darkGray py-2 px-8 rounded-full text-lg "
+            className="bg-darkGray py-2 px-8 rounded-lg text-lg "
           >
             Cancel{" "}
           </button>

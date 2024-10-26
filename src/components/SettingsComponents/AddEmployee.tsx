@@ -79,10 +79,10 @@ const AddEmployee: React.FC<TriggerType> = ({ trigger, setTrigger }) => {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="w-full text-white flex flex-col gap-2 max-w-md p-4 rounded-xl text-center"
+          className="max-h-[300px]  text-white flex flex-col gap-2 max-w-md rounded-xl text-center overflow-y-scroll hide-scrollbar-webkit  hide-scrollbar-firefox"
         >
           {error && <AlertError error={error} />}
-          <h3 className="font-bold text-2xl">Add Employee</h3>
+          <h3 className="font-bold text-2xl mt-2">Add Employee</h3>
           <input
             onChange={(e) => setFirstName(e.target.value)}
             value={firstName}
@@ -110,7 +110,7 @@ const AddEmployee: React.FC<TriggerType> = ({ trigger, setTrigger }) => {
             required
             type="number"
           />
-          <div className="flex justify-center items-center gap-4 my-4">
+          <div className="flex justify-center items-center gap-4 my-2">
             <p>Is this employee an Admin?</p>
             <label className="relative inline-flex items-center cursor-pointer">
               <input

@@ -41,7 +41,7 @@ const EmployeeSection = () => {
           Edit/Delete
         </button>
       </div>
-      <div className="overflow-hidden">{tabs(activeTab)}</div>
+      <div className="">{tabs(activeTab)}</div>
     </div>
   );
 };

@@ -75,7 +75,7 @@ const EditDeleteEmployee: React.FC<TriggerType> = ({ trigger, setTrigger }) => {
           name="search"
         />
       </div>
-      <div className="h-[45vh] relative mt-4 max-w-md w-full select-none flex flex-col gap-2 overflow-y-scroll hide-scrollbar-firefox hide-scrollbar-webkit">
+      <div className="h-full relative mt-4 max-w-md w-full select-none flex flex-col gap-2 overflow-y-scroll hide-scrollbar-firefox hide-scrollbar-webkit">
         {error && <AlertError error={error} />}
         {isLoading && (
           <div className="absolute h-full w-full flex justify-center items-center bg-black/50">

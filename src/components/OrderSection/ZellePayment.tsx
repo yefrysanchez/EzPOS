@@ -33,8 +33,8 @@ const ZellePayment: React.FC<ZellePaymentType> = ({setShowPaymentMethod}) => {
           />
         </div>
         <div className="mt-4 flex gap-4">
-          <button onClick={() => setShowPaymentMethod(false)} className="bg-darkGray py-2 px-4 rounded-full text-lg">Cancel </button>
-          <button onClick={() => dispatch(resetCart())} className="bg-violet-700 py-2 px-4 rounded-full text-lg">Confirm Payment</button>
+          <button onClick={() => setShowPaymentMethod(false)} className="bg-darkGray py-2 px-4 rounded-lg text-lg">Cancel </button>
+          <button onClick={() => dispatch(resetCart())} className="bg-violet-700 py-2 px-4 rounded-lg text-lg">Confirm Payment</button>
         </div>
       </div>
     </div>
