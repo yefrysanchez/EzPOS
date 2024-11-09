@@ -32,7 +32,7 @@ const MenuPage = () => {
   }, [dispatch]);
 
   return (
-    <div className="h-screen lg:w-full flex flex-col bg-black overflow-hidden p-2">
+    <div className="h-dvh lg:h-screen lg:w-full flex flex-col bg-black overflow-hidden p-2">
       <Category activeTab={activeTab} setActiveTab={setActiveTab} />
       <ProductSection activeTab={activeTab} />
     </div>

@@ -57,7 +57,7 @@ const ClockIn = () => {
   }, []);
 
   return (
-    <div className="flex h-svh w-full">
+    <div className="flex h-dvh lg:min-h-screen w-full">
       <div className="w-full flex flex-col items-center justify-center pb-4">
         <motion.div
           variants={fadeUp}

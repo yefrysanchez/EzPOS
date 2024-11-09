@@ -53,7 +53,7 @@ const SettingPage = () => {
   }, [dispatch]);
 
   return (
-    <section className="h-svh w-full bg-black flex flex-col p-2">
+    <section className="h-dvh lg:h-screen w-full bg-black flex flex-col p-2">
       <div className="mb-4">
         <h2 className="text-5xl font-bold text-white tracking-tighter">
           Settings

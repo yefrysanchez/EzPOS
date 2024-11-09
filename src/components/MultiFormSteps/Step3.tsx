@@ -120,7 +120,7 @@ const Step3 = () => {
             initial="initial"
             animate="enter"
             exit="exit"
-            className="bg-black z-[999] flex flex-col justify-center items-center fixed h-screen w-full left-0 top-0 right-0 bottom-0"
+            className="bg-black z-[999] flex flex-col justify-center items-center fixed h-dvh w-full left-0 top-0 right-0 bottom-0"
           >
             <h1 className=" mb-1 text-white animate-pulse text-xl">Loading</h1>
             <Loading />

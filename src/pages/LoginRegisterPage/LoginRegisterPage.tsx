@@ -29,7 +29,7 @@ const LoginRegisterPage = () => {
     <div className="bg-gradient-to-r
     from-pink
     via-blue
-    to-purple background-animate w-full min-h-svh flex justify-center items-center p-2">
+    to-purple background-animate w-full min-h-dvh flex justify-center items-center p-2">
       {isRegistered ? (
         <Login setIsRegistered={setIsRegistered} />
       ) : (

@@ -25,14 +25,14 @@ const Navbar = () => {
   }, [dispatch]);
 
   return (
-    <nav className={`relative  h-16 /  lg:h-screen w-full lg:max-w-[230px]`}>
+    <nav className={`relative  h-16 /  lg:h-dvh w-full lg:max-w-[230px]`}>
       <button className="text-3xl text-white flex items-center h-full pl-3 / lg:hidden">
         <HiMenuAlt2 onClick={() => setIsOpen(true)} />
       </button>
       <div
         className={`${
           isOpen ? "fixed" : "hidden"
-        } left-0 top-0 h-screen w-3/4 bg-black z-50  / lg:w-full lg:block`}
+        } left-0 top-0 h-dvh w-3/4 bg-black z-50  / lg:w-full lg:block`}
       >
         <div className="text-white flex justify-between p-4 mb-4">
           <div className={`text-4xl font-bold tracking-tighter / lg:text-3xl`}>

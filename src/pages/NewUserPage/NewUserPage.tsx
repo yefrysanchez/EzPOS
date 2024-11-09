@@ -27,7 +27,7 @@ const NewUserPage = () => {
       className="bg-gradient-to-r
     from-pink
     via-blue
-    to-purple background-animate w-full h-svh flex p-1 flex-col justify-center items-center lg:p-2"
+    to-purple background-animate w-full h-dvh lg:min-h-screen flex p-1 flex-col justify-center items-center lg:p-2"
     >
       <div className="max-w-xl sm:min-h-[500px] h-fit w-full flex flex-col gap-8 items-center bg-white rounded-xl  overflow-y-scroll hide-scrollbar-webkit  hide-scrollbar-firefox">
         <Stepper />
