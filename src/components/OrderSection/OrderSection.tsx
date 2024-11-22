@@ -5,11 +5,10 @@ import PaymentSect from "./PaymentSect";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { BsCartX } from "react-icons/bs";
-
+import { AnimatePresence, motion } from "framer-motion";
+import { fade } from "../../animations/animations";
 
 const OrderSection = () => {
-
-  
   const [isOpen, setIsOpen] = useState(false);
   const { cart } = useSelector((state: RootState) => state.cart);
 
@@ -23,42 +22,54 @@ const OrderSection = () => {
       </button>
 
       {cart.length > 0 ? (
-        <div
-          className={`${
-            isOpen ? "absolute inset-0" : "hidden lg:flex"
-          } bg-black z-50 p-4 flex flex-col / lg:static lg:w-full`}
-        >
-          {/* Order Number and arrow */}
-          <div className="flex">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute right-4 top-4 text-3xl lg:hidden"
-            >
-              <FaArrowRight />
-            </button>
-            <span className="mx-auto lg:text-lg">Order 245</span>
-          </div>
+        <AnimatePresence>
+          <motion.div
+            variants={fade}
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            className={`${
+              isOpen ? "absolute inset-0" : "hidden lg:flex"
+            } bg-black z-50 p-4 flex flex-col / lg:static lg:w-full`}
+          >
+            {/* Order Number and arrow */}
+            <div className="flex">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="absolute right-4 top-4 text-3xl lg:hidden"
+              >
+                <FaArrowRight />
+              </button>
+              <span className="mx-auto lg:text-lg">Order Details</span>
+            </div>
 
-          {/* cart products */}
+            {/* cart products */}
 
-          <div className="my-1 overflow-y-scroll grid gap-3 hide-scrollbar-webkit hide-scrollbar-firefox / lg:flex-initial lg:gap-2">
-            {cart.map((p, i: number) => (
-              <CartProduct
-                key={p.id}
-                id={p.id}
-                indexList={i + 1}
-                product={p.name}
-                price={p.price}
-                quantity={p.qty }
-              />
-            ))}
-          </div>
+            <div className="my-1 overflow-y-scroll grid gap-3 hide-scrollbar-webkit hide-scrollbar-firefox / lg:flex-initial lg:gap-2">
+              <AnimatePresence>
+                {cart.map((p, i: number) => (
+                  <CartProduct
+                    key={p.id}
+                    id={p.id}
+                    indexList={i + 1}
+                    product={p.name}
+                    price={p.price}
+                    quantity={p.qty}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
 
-          {/* total and pay btn */}
-          <PaymentSect />
-        </div>
+            {/* total and pay btn */}
+            <PaymentSect />
+          </motion.div>
+        </AnimatePresence>
       ) : (
-        <div
+        <motion.div
+          variants={fade}
+          initial="initial"
+          animate="enter"
+          exit="exit"
           className={`${
             isOpen ? "absolute inset-0" : "hidden lg:block"
           } bg-darkGray z-50 p-4 flex flex-col / lg:static lg:w-full`}
@@ -77,7 +88,7 @@ const OrderSection = () => {
               Cart is Empty
             </span>
           </div>
-        </div>
+        </motion.div>
       )}
     </section>
   );

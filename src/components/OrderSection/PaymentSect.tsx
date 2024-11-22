@@ -7,6 +7,7 @@ import { useState } from "react";
 import CashPayment from "./CashPayment";
 import CardPayment from "./CardPayment";
 import ZellePayment from "./ZellePayment";
+import { AnimatePresence } from "framer-motion";
 
 const PaymentSect = () => {
   // Redux State
@@ -86,7 +87,7 @@ const PaymentSect = () => {
         )}
         <PayBtn paymentMethod={paymentMethod} setShowPaymentMethod={setShowPaymentMethod} />
       </div>
-      {showPaymentMethod && paymentScreen(paymentMethod)}
+      {showPaymentMethod && <AnimatePresence>{paymentScreen(paymentMethod)}</AnimatePresence>}
     </div>
   );
 };

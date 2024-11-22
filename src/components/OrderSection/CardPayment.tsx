@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { CiCreditCard1 } from "react-icons/ci";
 import { LuSmartphoneNfc } from "react-icons/lu";
+import { fadeUp } from "../../animations/animations";
 
 type CardPaymentType = {
   setShowPaymentMethod: (bool: boolean) => void;
@@ -11,10 +13,14 @@ const CardPayment: React.FC<CardPaymentType> = ({
   setShowPaymentMethod,
   total,
 }) => {
-
-
   return (
-    <div className="fixed select-none px-2 inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center">
+    <motion.div
+      variants={fadeUp}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      className="fixed select-none px-2 inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center"
+    >
       <div className="max-w-md max-h-[400px] h-full p-4 flex flex-col items-center w-full bg-white rounded-lg">
         <div className="text-black text-lg">
           <p>Pay with a card or NFC</p>
@@ -39,10 +45,9 @@ const CardPayment: React.FC<CardPaymentType> = ({
           >
             Cancel{" "}
           </button>
-          
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
