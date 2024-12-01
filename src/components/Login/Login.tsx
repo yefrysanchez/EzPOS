@@ -57,6 +57,12 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
     }
   };
 
+  const demoLogin = () => {
+    setEmail("demo@test.com");
+    setPassword("1234");
+  };
+  
+
   return (
     <motion.section
       variants={fadeUp}
@@ -101,6 +107,14 @@ const Login: React.FC<FuncProp> = ({ setIsRegistered }) => {
         <p className="text-sm text-blue-700 mb-4 text-end hover:underline cursor-pointer">
           Forgot password?
         </p>
+        <button
+        onClick={demoLogin}
+          disabled={isLoading}
+          className="bg-gray mb-2 placeholder:text-gray text-lg w-full h-16 p-4 rounded-xl font-bold text-white cursor-pointer"
+          type="submit"
+        >
+          {isLoading ? <Loading /> : "Use Demo Account"}
+        </button>
         <button
           disabled={isLoading}
           className="bg-black placeholder:text-gray text-xl w-full h-16 p-4 rounded-xl font-bold text-white cursor-pointer"
